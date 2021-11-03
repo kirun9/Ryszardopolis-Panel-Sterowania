@@ -5,7 +5,7 @@
     using System.Windows.Forms;
 using PodgórzynPanelSterowania.Extensions;
 
-    public class SideElement : Element
+    public class SideElement : NewElement
     {
         private SideLocation side;
 

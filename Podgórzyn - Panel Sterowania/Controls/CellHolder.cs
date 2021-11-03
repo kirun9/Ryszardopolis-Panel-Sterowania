@@ -5,13 +5,15 @@
     using System.Drawing;
     using System.Linq;
 
-    public class CellHolder : IEnumerable<Element>
+    using PodgórzynPanelSterowania.Controls.Cells;
+
+    public class CellHolder : IEnumerable<NewElement>
     {
-        protected Size _grid { get; set; } = new Size(0, 0);
+        protected Size grid { get; set; } = new Size(0, 0);
 
-        private Element[] Cells { get; set; } = new Element[0];
+        private NewElement[] Cells { get; set; } = new NewElement[0];
 
-        public Element this[int index]
+        public NewElement this[int index]
         {
             get
             {
@@ -24,28 +26,28 @@
             }
         }
 
-        public Element this[int x, int y]
+        public NewElement this[int x, int y]
         {
             get
             {
-                return Cells[x + (y * _grid.Width)];
+                return Cells[x + (y * grid.Width)];
             }
 
             set
             {
-                Cells[x + (y * _grid.Width)] = value;
+                Cells[x + (y * grid.Width)] = value;
             }
         }
 
         public void ModifySize(int x, int y)
         {
-            _grid = new Size(x, y);
+            grid = new Size(x, y);
             Cells = Cells.ModifySize(x * y);
         }
 
-        public IEnumerator<Element> GetEnumerator()
+        public IEnumerator<NewElement> GetEnumerator()
         {
-            return Cells.OfType<Element>().GetEnumerator();
+            return Cells.OfType<NewElement>().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

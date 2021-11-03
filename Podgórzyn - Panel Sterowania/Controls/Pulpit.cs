@@ -16,6 +16,15 @@
         private readonly float defaultCellSize = 4 * 9.5f;
         private bool lockScale = true;
         private float pulpitScale;
+
+        public Size PulpitSize
+        {
+            get
+            {
+                return new Size((int) (PulpitScale + (_dimensions.Width * defaultCellSize * PulpitScale)), (int) (PulpitScale + (_dimensions.Height * defaultCellSize * PulpitScale)));
+            }
+        }
+
         public float PulpitScale
         {
             get
@@ -82,11 +91,11 @@
             pulpitScale = min;
         }
 
-        private IEnumerable<Element> GetMainCells()
+        private IEnumerable<NewElement> GetMainCells()
         {
             foreach (var control in Controls)
             {
-                if (control is Element element)
+                if (control is NewElement element)
                 {
                     if (element.GridLocation.X.IsBetween(1, _dimensions.Width - 2) && element.GridLocation.Y.IsBetween(1, _dimensions.Height - 2))
                     {
@@ -125,22 +134,29 @@
                 {
                     if (x.IsBetween(1, _dimensions.Width - 2) && y.IsBetween(1, _dimensions.Height - 2))
                     {
-                        var cell = new Element();
-                        cell.Text = x + ", " + y;
+                        var cell = new NewElement();
+                        ////cell.Text = x + ", " + y;
                         cell.GridLocation = new Point(x, y);
-                        Controls.Add(cell);
+                        ////Controls.Add(cell);
                         Cells[x, y] = cell;
+                        cell.UpdateElement += UpdateElement;
                     }
                     else
                     {
                         var cell = new SideElement();
                         cell.Side = (x == 0 ? SideElement.SideLocation.Left : (x == _dimensions.Width - 1 ? SideElement.SideLocation.Right : SideElement.SideLocation.None)) | (y == 0 ? SideElement.SideLocation.Top : (y == _dimensions.Width - 1 ? SideElement.SideLocation.Bottom : SideElement.SideLocation.None));
-                        Controls.Add(cell);
+                        ////Controls.Add(cell);
                         cell.GridLocation = new Point(x, y);
                         Cells[x, y] = cell;
+                        cell.UpdateElement += UpdateElement;
                     }
                 }
             }
+        }
+
+        private void UpdateElement(object sender, EventArgs e)
+        {
+
         }
 
         private void DrawElements()
@@ -179,14 +195,18 @@
         {
             base.OnPaint(e);
 
-            Graphics g = e.Graphics;
+            Bitmap bitmap = new Bitmap(PulpitSize.Width, PulpitSize.Height);
+            Graphics g = Graphics.FromImage(bitmap);
+
+            //Graphics g = e.Graphics;
 
             using (SolidBrush b = new SolidBrush(Colors.Black.ToColor()))
             {
                 g.FillRectangle(b, 0, 0, Width, Height);
             }
 
-            DrawElements();
+            //DrawElements();
+            DrawNewElements(ref g);
         }
 
         protected override void OnLayout(LayoutEventArgs levent)

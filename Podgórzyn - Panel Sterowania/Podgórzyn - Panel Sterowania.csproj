@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\CellHolder.cs" />
-    <Compile Include="Controls\Cells\NewElement.cs" />
+    <Compile Include="Controls\Cells\Element.cs" />
     <Compile Include="Controls\Cells\SideElement.cs" />
     <Compile Include="Controls\Colors.cs" />
     <Compile Include="Controls\ElementExtensions.cs" />

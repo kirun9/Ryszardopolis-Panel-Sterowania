@@ -9,7 +9,7 @@ using PodgórzynPanelSterowania.Extensions;
 
 namespace PodgórzynPanelSterowania.Controls.Cells
 {
-    public class NewElement
+    public class Element
     {
         private Point gridLocation;
         private Size size;
@@ -48,13 +48,6 @@ namespace PodgórzynPanelSterowania.Controls.Cells
         public Point Location { get => location; set => location = value; }
 
         public float ElementScale { get => elementScale; set => elementScale = value; }
-
-        public event EventHandler UpdateElement;
-
-        public NewElement()
-        {
-
-        }
 
         public virtual void UpdateBitmap(Graphics g)
         {

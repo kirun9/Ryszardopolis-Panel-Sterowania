@@ -3,6 +3,7 @@
     using System;
     using System.Drawing;
 
+    [System.Diagnostics.DebuggerStepThrough]
     public static class Extensions
     {
         public static T Clone<T>(this T val) where T : struct => val;

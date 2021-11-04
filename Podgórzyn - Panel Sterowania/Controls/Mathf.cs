@@ -2,6 +2,7 @@
 {
     using System.Drawing;
 
+    [System.Diagnostics.DebuggerStepThrough]
     public static class Mathf
     {
         public static int ClampMin(int value) => ClampMin(value, 0);

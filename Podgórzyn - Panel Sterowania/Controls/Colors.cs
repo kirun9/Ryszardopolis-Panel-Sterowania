@@ -14,6 +14,7 @@
         SideFilling  = 0x999999
     }
 
+    [System.Diagnostics.DebuggerStepThrough]
     public static class ColorsExtensions
     {
         public static Color ToColor(this Colors c)

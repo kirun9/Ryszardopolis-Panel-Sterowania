@@ -7,13 +7,14 @@
 
     using PodgórzynPanelSterowania.Controls.Cells;
 
-    public class CellHolder : IEnumerable<NewElement>
+    [System.Diagnostics.DebuggerStepThrough]
+    public class CellHolder : IEnumerable<Element>
     {
-        protected Size grid { get; set; } = new Size(0, 0);
+        protected Size Grid { get; set; } = new Size(0, 0);
 
-        private NewElement[] Cells { get; set; } = new NewElement[0];
+        private Element[] Cells { get; set; } = new Element[0];
 
-        public NewElement this[int index]
+        public Element this[int index]
         {
             get
             {
@@ -26,28 +27,28 @@
             }
         }
 
-        public NewElement this[int x, int y]
+        public Element this[int x, int y]
         {
             get
             {
-                return Cells[x + (y * grid.Width)];
+                return Cells[x + (y * Grid.Width)];
             }
 
             set
             {
-                Cells[x + (y * grid.Width)] = value;
+                Cells[x + (y * Grid.Width)] = value;
             }
         }
 
         public void ModifySize(int x, int y)
         {
-            grid = new Size(x, y);
+            Grid = new Size(x, y);
             Cells = Cells.ModifySize(x * y);
         }
 
-        public IEnumerator<NewElement> GetEnumerator()
+        public IEnumerator<Element> GetEnumerator()
         {
-            return Cells.OfType<NewElement>().GetEnumerator();
+            return Cells.OfType<Element>().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

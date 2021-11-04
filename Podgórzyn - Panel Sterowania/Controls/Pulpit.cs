@@ -144,7 +144,7 @@
                     else
                     {
                         var cell = new SideElement();
-                        cell.Side = (x == 0 ? SideElement.SideLocation.Left : (x == _dimensions.Width - 1 ? SideElement.SideLocation.Right : SideElement.SideLocation.None)) | (y == 0 ? SideElement.SideLocation.Top : (y == _dimensions.Width - 1 ? SideElement.SideLocation.Bottom : SideElement.SideLocation.None));
+                        cell.Side = (x == 0 ? SideElement.SideLocation.Left : (x == _dimensions.Width - 1 ? SideElement.SideLocation.Right : SideElement.SideLocation.None)) | (y == 0 ? SideElement.SideLocation.Top : (y == _dimensions.Height - 1 ? SideElement.SideLocation.Bottom : SideElement.SideLocation.None));
                         ////Controls.Add(cell);
                         cell.GridLocation = new Point(x, y);
                         Cells[x, y] = cell;
@@ -159,13 +159,14 @@
 
         }
 
-        private void DrawElements()
+        private void CalculateElementsLocations()
         {
             foreach (var cell in Cells)
             {
                 cell.Size = new Size((int) (defaultCellSize * PulpitScale), (int) (defaultCellSize * PulpitScale));
                 int cellX = cell.GridLocation.X * cell.Size.Width;
                 int cellY = cell.GridLocation.Y * cell.Size.Height;
+                cell.ElementScale = PulpitScale;
 
                 if (cell.GridLocation.X == _dimensions.Width - 2)
                 {
@@ -195,6 +196,8 @@
         {
             base.OnPaint(e);
 
+            CalculateElementsLocations();
+
             Bitmap bitmap = new Bitmap(PulpitSize.Width, PulpitSize.Height);
             Graphics g = Graphics.FromImage(bitmap);
 
@@ -205,8 +208,15 @@
                 g.FillRectangle(b, 0, 0, Width, Height);
             }
 
+            foreach (var cell in Cells)
+            {
+                cell.UpdateBitmap(g);
+            }
+
+            e.Graphics.DrawImageUnscaled(bitmap, 0, 0);
+
             //DrawElements();
-            DrawNewElements(ref g);
+            //DrawNewElements(ref g);
         }
 
         protected override void OnLayout(LayoutEventArgs levent)

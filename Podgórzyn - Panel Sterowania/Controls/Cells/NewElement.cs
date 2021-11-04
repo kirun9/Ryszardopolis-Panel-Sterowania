@@ -14,6 +14,7 @@ namespace PodgórzynPanelSterowania.Controls.Cells
         private Point gridLocation;
         private Size size;
         private Point location;
+        private float elementScale;
 
         public Point GridLocation
         {
@@ -25,8 +26,6 @@ namespace PodgórzynPanelSterowania.Controls.Cells
             set
             {
                 gridLocation = value;
-
-                OnUpdateElement();
             }
         }
 
@@ -40,13 +39,15 @@ namespace PodgórzynPanelSterowania.Controls.Cells
             set
             {
                 size = value;
-                OnUpdateElement();
             }
         }
 
         public bool DrawBottomBigger { get; set; }
         public bool DrawRightBigger { get; set; }
 
+        public Point Location { get => location; set => location = value; }
+
+        public float ElementScale { get => elementScale; set => elementScale = value; }
 
         public event EventHandler UpdateElement;
 
@@ -55,39 +56,51 @@ namespace PodgórzynPanelSterowania.Controls.Cells
 
         }
 
-        private void OnUpdateElement()
+        public virtual void UpdateBitmap(Graphics g)
         {
-            UpdateElement?.Invoke(this, new EventArgs());
+            DrawBorder(g);
+            DrawContent(g);
         }
 
-        public void UpdateBitmap(ref Graphics g, Point pos, float scale)
+        public virtual void DrawBorder(Graphics g)
         {
-            using SolidBrush brush = new SolidBrush(Colors.BorderMain.ToColor());
-            g.FillRectangle(brush, pos.X             , pos.Y             , scale     , size.Height);
-            g.FillRectangle(brush, pos.X             , pos.Y             , size.Width, scale      );
+            using SolidBrush brush = new SolidBrush(Colors.Background.ToColor());
+            g.FillRectangle(brush, location.X, location.Y, Size.Width, Size.Height);
+
+            brush.Color = Colors.BorderMain.ToColor();
+            g.FillRectangle(brush, location.X, location.Y, elementScale, size.Height);
+            g.FillRectangle(brush, location.X, location.Y, size.Width, elementScale);
+
             brush.Color = Colors.BorderSecond.ToColor();
-            g.FillRectangle(brush, pos.X             , pos.Y + 12 * scale, scale     , 4 * scale  );
-            g.FillRectangle(brush, pos.X             , pos.Y + 22 * scale, scale     , 4 * scale  );
-            g.FillRectangle(brush, pos.X + 12 * scale, pos.Y             , 4 * scale , scale      );
-            g.FillRectangle(brush, pos.X + 22 * scale, pos.Y             , 4 * scale , scale      );
+            g.FillRectangle(brush, location.X, location.Y + 12 * elementScale, elementScale, 4 * elementScale);
+            g.FillRectangle(brush, location.X, location.Y + 22 * elementScale, elementScale, 4 * elementScale);
+            g.FillRectangle(brush, location.X + 12 * elementScale, location.Y, 4 * elementScale, elementScale);
+            g.FillRectangle(brush, location.X + 22 * elementScale, location.Y, 4 * elementScale, elementScale);
 
             if (DrawBottomBigger)
             {
                 brush.Color = Colors.BorderMain.ToColor();
-                g.FillRectangle(brush, pos.X             , pos.Y + size.Height - scale.Ceiling(), size.Width, scale);
+                g.FillRectangle(brush, location.X, location.Y + size.Height - elementScale.Ceiling(), size.Width, elementScale);
+
                 brush.Color = Colors.BorderSecond.ToColor();
-                g.FillRectangle(brush, pos.X + 12 * scale, pos.Y + size.Height - scale.Ceiling(), 4 * scale , scale);
-                g.FillRectangle(brush, pos.X + 22 * scale, pos.Y + size.Height - scale.Ceiling(), 4 * scale , scale);
+                g.FillRectangle(brush, location.X + 12 * elementScale, location.Y + size.Height - elementScale.Ceiling(), 4 * elementScale, elementScale);
+                g.FillRectangle(brush, location.X + 22 * elementScale, location.Y + size.Height - elementScale.Ceiling(), 4 * elementScale, elementScale);
             }
 
             if (DrawRightBigger)
             {
                 brush.Color = Colors.BorderMain.ToColor();
-                g.FillRectangle(brush, pos.X + size.Width - scale.Ceiling(), pos.Y             , scale, size.Height);
+                g.FillRectangle(brush, location.X + size.Width - elementScale.Ceiling(), location.Y, elementScale, size.Height);
+
                 brush.Color = Colors.BorderSecond.ToColor();
-                g.FillRectangle(brush, pos.X + size.Width - scale.Ceiling(), pos.Y + 12 * scale, scale, 4 * scale  );
-                g.FillRectangle(brush, pos.X + size.Width - scale.Ceiling(), pos.Y + 22 * scale, scale, 4 * scale  );
+                g.FillRectangle(brush, location.X + size.Width - elementScale.Ceiling(), location.Y + 12 * elementScale, elementScale, 4 * elementScale);
+                g.FillRectangle(brush, location.X + size.Width - elementScale.Ceiling(), location.Y + 22 * elementScale, elementScale, 4 * elementScale);
             }
+        }
+
+        public virtual void DrawContent(Graphics g)
+        {
+
         }
     }
 }

@@ -52,12 +52,6 @@
     <Compile Include="Controls\Cells\NewElement.cs" />
     <Compile Include="Controls\Cells\SideElement.cs" />
     <Compile Include="Controls\Colors.cs" />
-    <Compile Include="Controls\Element.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\Element.Designer.cs">
-      <DependentUpon>Element.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\ElementExtensions.cs" />
     <Compile Include="Controls\Extensions.cs" />
     <Compile Include="Controls\Mathf.cs" />

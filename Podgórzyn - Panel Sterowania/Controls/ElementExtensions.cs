@@ -1,10 +1,12 @@
-﻿namespace PodgórzynPanelSterowania.Controls
+﻿using PodgórzynPanelSterowania.Controls.Cells;
+
+namespace PodgórzynPanelSterowania.Controls
 {
     public static class ElementExtensions
     {
-        public static Element[] ModifySize(this Element[] oldArr, int newSize)
+        public static NewElement[] ModifySize(this NewElement[] oldArr, int newSize)
         {
-            Element[] newArr = new Element[newSize];
+            NewElement[] newArr = new NewElement[newSize];
             if (newSize < oldArr.Length)
             {
                 for (int i = 0; i < newSize; i++)

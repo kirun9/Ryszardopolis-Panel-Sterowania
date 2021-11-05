@@ -64,10 +64,10 @@
 
             set
             {
-                dimensions = value.Add(2, 2);
+                dimensions = value;
                 int internalX, internalY;
-                internalX = value.Width + 2;
-                internalY = value.Height + 2;
+                internalX = value.Width;
+                internalY = value.Height;
                 Size = new Size((int) ((internalX * (defaultCellSize + 1) + 1) * PulpitScale) + 1, (int) ((internalY * (defaultCellSize + 1) + 1) * PulpitScale) + 1);
                 cells.ModifySize(dimensions.Width, dimensions.Height);
             }
@@ -150,7 +150,6 @@
             scaleY = height / (defaultCellSize * dimensions.Height + 1);
 
             min = Math.Min(scaleX, scaleY);
-            var width2 = (int) (min + (dimensions.Width * defaultCellSize * min));
             pulpitScale = min;
         }
 
@@ -198,6 +197,7 @@
             foreach (var cell in cells)
             {
                 cell.Size = new Size((int) (defaultCellSize * PulpitScale), (int) (defaultCellSize * PulpitScale));
+                cell.USize = new Size((int) defaultCellSize, (int) defaultCellSize);
                 int cellX = cell.GridLocation.X * cell.Size.Width;
                 int cellY = cell.GridLocation.Y * cell.Size.Height;
                 cell.ElementScale = PulpitScale;
@@ -205,12 +205,14 @@
                 if (cell.GridLocation.X == dimensions.Width - 2)
                 {
                     cell.Size = new Size((int) ((defaultCellSize + 1) * PulpitScale), cell.Size.Height);
+                    cell.USize = new Size((int) defaultCellSize + 1, cell.USize.Height);
                     cell.DrawRightBigger = true;
                 }
 
                 if (cell.GridLocation.Y == dimensions.Height - 2)
                 {
                     cell.Size = new Size(cell.Size.Width, (int) ((defaultCellSize + 1) * PulpitScale));
+                    cell.USize = new Size(cell.USize.Width, (int) defaultCellSize + 1);
                     cell.DrawBottomBigger = true;
                 }
 

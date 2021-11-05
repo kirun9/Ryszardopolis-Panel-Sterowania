@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using PodgórzynPanelSterowania.Extensions;
-
-namespace PodgórzynPanelSterowania.Controls.Cells
+﻿namespace PodgórzynPanelSterowania.Controls.Cells
 {
-    public class Element
+    using System.Drawing;
+
+    public partial class Element
     {
         private Point gridLocation;
         private Size size;
+        private Size usize;
         private Point location;
         private float elementScale;
 
@@ -42,7 +36,10 @@ namespace PodgórzynPanelSterowania.Controls.Cells
             }
         }
 
+        public Size USize { get => usize; set => usize = value; }
+
         public bool DrawBottomBigger { get; set; }
+
         public bool DrawRightBigger { get; set; }
 
         public Point Location { get => location; set => location = value; }
@@ -57,43 +54,33 @@ namespace PodgórzynPanelSterowania.Controls.Cells
 
         public virtual void DrawBorder(Graphics g)
         {
-            using SolidBrush brush = new SolidBrush(Colors.Background.ToColor());
-            g.FillRectangle(brush, location.X, location.Y, Size.Width, Size.Height);
+            FillRectangle(g, Colors.Background, 0, 0, USize.Width, USize.Height);
 
-            brush.Color = Colors.BorderMain.ToColor();
-            g.FillRectangle(brush, location.X, location.Y, elementScale, size.Height);
-            g.FillRectangle(brush, location.X, location.Y, size.Width, elementScale);
+            DrawLine(g, Colors.BorderMain, 0, 0, 0, USize.Height);
+            DrawLine(g, Colors.BorderMain, 0, 0, USize.Width, 0);
 
-            brush.Color = Colors.BorderSecond.ToColor();
-            g.FillRectangle(brush, location.X, location.Y + 12 * elementScale, elementScale, 4 * elementScale);
-            g.FillRectangle(brush, location.X, location.Y + 22 * elementScale, elementScale, 4 * elementScale);
-            g.FillRectangle(brush, location.X + 12 * elementScale, location.Y, 4 * elementScale, elementScale);
-            g.FillRectangle(brush, location.X + 22 * elementScale, location.Y, 4 * elementScale, elementScale);
+            DrawLineRect(g, Colors.BorderSecond, 0, 12, 0, 4);
+            DrawLineRect(g, Colors.BorderSecond, 0, 22, 0, 4);
+            DrawLineRect(g, Colors.BorderSecond, 12, 0, 4, 0);
+            DrawLineRect(g, Colors.BorderSecond, 22, 0, 4, 0);
 
             if (DrawBottomBigger)
             {
-                brush.Color = Colors.BorderMain.ToColor();
-                g.FillRectangle(brush, location.X, location.Y + size.Height - elementScale.Ceiling(), size.Width, elementScale);
-
-                brush.Color = Colors.BorderSecond.ToColor();
-                g.FillRectangle(brush, location.X + 12 * elementScale, location.Y + size.Height - elementScale.Ceiling(), 4 * elementScale, elementScale);
-                g.FillRectangle(brush, location.X + 22 * elementScale, location.Y + size.Height - elementScale.Ceiling(), 4 * elementScale, elementScale);
+                DrawLineRect(g, Colors.BorderMain, 0, USize.Height, USize.Width, 0);
+                DrawLineRect(g, Colors.BorderSecond, 12, USize.Height, 4, 0);
+                DrawLineRect(g, Colors.BorderSecond, 22, USize.Height, 4, 0);
             }
 
             if (DrawRightBigger)
             {
-                brush.Color = Colors.BorderMain.ToColor();
-                g.FillRectangle(brush, location.X + size.Width - elementScale.Ceiling(), location.Y, elementScale, size.Height);
-
-                brush.Color = Colors.BorderSecond.ToColor();
-                g.FillRectangle(brush, location.X + size.Width - elementScale.Ceiling(), location.Y + 12 * elementScale, elementScale, 4 * elementScale);
-                g.FillRectangle(brush, location.X + size.Width - elementScale.Ceiling(), location.Y + 22 * elementScale, elementScale, 4 * elementScale);
+                DrawLineRect(g, Colors.BorderMain, USize.Width, 0, 0, USize.Height);
+                DrawLineRect(g, Colors.BorderSecond, USize.Width, 12, 0, 4);
+                DrawLineRect(g, Colors.BorderSecond, USize.Width, 22, 0, 4);
             }
         }
 
         public virtual void DrawContent(Graphics g)
         {
-
         }
     }
 }

@@ -26,6 +26,15 @@
             return Size.Add(value, add);
         }
 
+        public static Size Subtract(this Size value, int x, int y) => value.Subtract(new Size(x, y));
+
+        public static Size Subtract(this Size value, Point add) => value.Subtract((Size) add);
+
+        public static Size Subtract(this Size value, Size add)
+        {
+            return Size.Subtract(value, add);
+        }
+
         public static bool IsBetween(this int val, int boundary1, int boundary2)
         {
             return (boundary1 < boundary2) ? (val >= boundary1 && val <= boundary2) : (val <= boundary1 && val >= boundary2);

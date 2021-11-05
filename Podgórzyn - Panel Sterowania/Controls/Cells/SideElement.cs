@@ -2,8 +2,6 @@
 {
     using System;
     using System.Drawing;
-    using System.Windows.Forms;
-using PodgórzynPanelSterowania.Extensions;
 
     public class SideElement : Element
     {
@@ -28,7 +26,6 @@ using PodgórzynPanelSterowania.Extensions;
 
         public override void DrawBorder(Graphics g)
         {
-
         }
 
         public override void DrawContent(Graphics g)
@@ -37,72 +34,103 @@ using PodgórzynPanelSterowania.Extensions;
             {
                 case SideLocation.Top:
                 {
-                    using SolidBrush brush = new SolidBrush(Colors.SidePrimary.ToColor());
-                    g.FillRectangle(brush, Location.X, Location.Y, Size.Width, Size.Height);
-                    brush.Color = Colors.SideScondary.ToColor();
-                    g.FillRectangle(brush, Location.X, Location.Y + (2 * ElementScale).Floor(), Size.Width, ElementScale);
-                    g.FillRectangle(brush, Location.X, Location.Y + (36 * ElementScale).Floor(), Size.Width, ElementScale);
-                    brush.Color = Colors.SideTrinnary.ToColor();
-                    g.FillRectangle(brush, Location.X, Location.Y + (1 * ElementScale).Floor(), Size.Width, ElementScale);
-                    g.FillRectangle(brush, Location.X, Location.Y + (37 * ElementScale).Floor(), Size.Width, ElementScale);
-                    brush.Color = Colors.SideFilling.ToColor();
-                    g.FillRectangle(brush, Location.X, Location.Y + (0 * ElementScale).Floor(), Size.Width, ElementScale);
+                    FillRectangle(g, Colors.SidePrimary, 0, 0, USize.Width, USize.Height);
+
+                    DrawLineRect(g, Colors.SideSecondary, 0, 2, USize.Width, 0);
+                    DrawLineRect(g, Colors.SideSecondary, 0, 36, USize.Width, 0);
+
+                    DrawLineRect(g, Colors.SideTrinnary, 0, 1, USize.Width, 0);
+                    DrawLineRect(g, Colors.SideTrinnary, 0, 37, USize.Width, 0);
+
+                    DrawLineRect(g, Colors.SideFilling, 0, 0, USize.Width, 0);
                     break;
                 }
+
                 case SideLocation.Bottom:
                 {
-                    using SolidBrush brush = new SolidBrush(Colors.SidePrimary.ToColor());
-                    g.FillRectangle(brush, Location.X, Location.Y, Size.Width, Size.Height);
-                    brush.Color = Colors.SideScondary.ToColor();
-                    g.FillRectangle(brush, Location.X, Location.Y + (1 * ElementScale).Floor(), Size.Width, ElementScale);
-                    g.FillRectangle(brush, Location.X, Location.Y + (35 * ElementScale).Floor(), Size.Width, ElementScale);
-                    brush.Color = Colors.SideTrinnary.ToColor();
-                    g.FillRectangle(brush, Location.X, Location.Y + (0 * ElementScale).Floor(), Size.Width, ElementScale);
-                    g.FillRectangle(brush, Location.X, Location.Y + (36 * ElementScale).Floor(), Size.Width, ElementScale);
-                    brush.Color = Colors.SideFilling.ToColor();
-                    g.FillRectangle(brush, Location.X, Location.Y + (37 * ElementScale).Floor(), Size.Width, ElementScale);
+                    FillRectangle(g, Colors.SidePrimary, 0, 0, USize.Width, USize.Height);
+
+                    DrawLineRect(g, Colors.SideSecondary, 0, 1, USize.Width, 0);
+                    DrawLineRect(g, Colors.SideSecondary, 0, 37, USize.Width, 0);
+
+                    DrawLineRect(g, Colors.SideTrinnary, 0, 0, USize.Width, 0);
+                    DrawLineRect(g, Colors.SideTrinnary, 0, 36, USize.Width, 0);
+
+                    DrawLineRect(g, Colors.SideFilling, 0, 37, USize.Width, 0);
                     break;
                 }
+
                 case SideLocation.Left:
                 {
-                    using SolidBrush brush = new SolidBrush(Colors.SidePrimary.ToColor());
-                    g.FillRectangle(brush, Location.X, Location.Y, Size.Width, Size.Height);
-                    brush.Color = Colors.SideScondary.ToColor();
-                    g.FillRectangle(brush, Location.X + (2 * ElementScale).Floor(), Location.Y, ElementScale, Size.Height);
-                    g.FillRectangle(brush, Location.X + (36 * ElementScale).Floor(), Location.Y, ElementScale, Size.Height);
-                    brush.Color = Colors.SideTrinnary.ToColor();
-                    g.FillRectangle(brush, Location.X + (1 * ElementScale).Floor(), Location.Y, ElementScale, Size.Height);
-                    g.FillRectangle(brush, Location.X + (37 * ElementScale).Floor(), Location.Y, ElementScale, Size.Height);
-                    brush.Color = Colors.SideFilling.ToColor();
-                    g.FillRectangle(brush, Location.X + (0 * ElementScale).Floor(), Location.Y, ElementScale, Size.Height);
+                    FillRectangle(g, Colors.SidePrimary, 0, 0, USize.Width, USize.Height);
+
+                    DrawLineRect(g, Colors.SideSecondary, 2, 0, 0, USize.Height);
+                    DrawLineRect(g, Colors.SideSecondary, 36, 0, 0, USize.Height);
+
+                    DrawLineRect(g, Colors.SideTrinnary, 1, 0, 0, USize.Height);
+                    DrawLineRect(g, Colors.SideTrinnary, 37, 0, 0, USize.Height);
+
+                    DrawLineRect(g, Colors.SideFilling, 0, 0, 0, USize.Height);
                     break;
                 }
+
                 case SideLocation.Right:
                 {
-                    using SolidBrush brush = new SolidBrush(Colors.SidePrimary.ToColor());
-                    g.FillRectangle(brush, Location.X, Location.Y, Size.Width, Size.Height);
-                    brush.Color = Colors.SideScondary.ToColor();
-                    g.FillRectangle(brush, Location.X + (1 * ElementScale).Floor(), Location.Y, ElementScale, Size.Height);
-                    g.FillRectangle(brush, Location.X + (35 * ElementScale).Floor(), Location.Y, ElementScale, Size.Height);
-                    brush.Color = Colors.SideTrinnary.ToColor();
-                    g.FillRectangle(brush, Location.X + (0 * ElementScale).Floor(), Location.Y, ElementScale, Size.Height);
-                    g.FillRectangle(brush, Location.X + (36 * ElementScale).Floor(), Location.Y, ElementScale, Size.Height);
-                    brush.Color = Colors.SideFilling.ToColor();
-                    g.FillRectangle(brush, Location.X + (37 * ElementScale).Floor(), Location.Y, ElementScale, Size.Height);
+                    FillRectangle(g, Colors.SidePrimary, 0, 0, USize.Width, USize.Height);
+
+                    DrawLineRect(g, Colors.SideSecondary, 1, 0, 0, USize.Height);
+                    DrawLineRect(g, Colors.SideSecondary, 35, 0, 0, USize.Height);
+
+                    DrawLineRect(g, Colors.SideTrinnary, 0, 0, 0, USize.Height);
+                    DrawLineRect(g, Colors.SideTrinnary, 36, 0, 0, USize.Height);
+
+                    DrawLineRect(g, Colors.SideFilling, 37, 0, 0, USize.Height);
                     break;
                 }
+
                 case SideLocation.TopLeft:
                 {
-                    using SolidBrush brush = new SolidBrush(Colors.SidePrimary.ToColor());
-                    g.FillRectangle(brush, Location.X, 0, Size.Width, Size.Height);
-                    brush.Color = Colors.SideScondary.ToColor();
-                    g.FillRectangle(brush, Location.X, (2 * ElementScale).Floor(), Size.Width, ElementScale);
-                    g.FillRectangle(brush, Location.X, (36 * ElementScale).Floor(), Size.Width, ElementScale);
-                    brush.Color = Colors.SideTrinnary.ToColor();
-                    /*g.FillRectangle(brush, 0, (1 * ElementScale).Floor(), Size.Width, ElementScale);
-                    g.FillRectangle(brush, 0, (37 * ElementScale).Floor(), Size.Width, ElementScale);
-                    brush.Color = Colors.SideFilling.ToColor();
-                    g.FillRectangle(brush, 0, (0 * ElementScale).Floor(), Size.Width, ElementScale);*/
+                    FillRectangle(g, Colors.SidePrimary, 0, 0, USize.Width, USize.Height);
+
+                    DrawLineRect(g, Colors.SideFilling, 0, 0, USize.Width, 0);
+                    DrawLineRect(g, Colors.SideFilling, 0, 0, 0, USize.Height);
+
+                    DrawLine(g, Colors.SideSecondary, 3, 3, USize.Width - 1, USize.Height - 1);
+
+                    DrawLine(g, Colors.SideTrinnary, 2, 2, 3, 2);
+                    DrawLine(g, Colors.SideTrinnary, 2, 2, 2, 3);
+
+                    DrawLine(g, Colors.SideTrinnary, 4, 1, USize.Width, 1);
+                    DrawLine(g, Colors.SideTrinnary, 1, 4, 1, USize.Width);
+
+                    DrawLine(g, Colors.SideSecondary, 4, 2, USize.Width, 2);
+                    DrawLine(g, Colors.SideSecondary, 2, 4, 2, USize.Width);
+
+                    FillRectangle(g, Colors.SideSecondary, 36, 36, 2, 2);
+                    FillRectangle(g, Colors.SideTrinnary, 37, 37, 1, 1);
+                    break;
+                }
+
+                case SideLocation.TopRight:
+                {
+                    FillRectangle(g, Colors.SidePrimary, 0, 0, USize.Width, USize.Height);
+
+                    DrawLineRect(g, Colors.SideFilling, 0, 0, USize.Width, 0);
+                    DrawLineRect(g, Colors.SideFilling, 0, 0, 0, USize.Height);
+
+                    DrawLine(g, Colors.SideSecondary, 3, 3, USize.Width - 1, USize.Height - 1);
+
+                    DrawLine(g, Colors.SideTrinnary, 2, 2, 3, 2);
+                    DrawLine(g, Colors.SideTrinnary, 2, 2, 2, 3);
+
+                    DrawLine(g, Colors.SideTrinnary, 4, 1, USize.Width, 1);
+                    DrawLine(g, Colors.SideTrinnary, 1, 4, 1, USize.Width);
+
+                    DrawLine(g, Colors.SideSecondary, 4, 2, USize.Width, 2);
+                    DrawLine(g, Colors.SideSecondary, 2, 4, 2, USize.Width);
+
+                    FillRectangle(g, Colors.SideSecondary, 36, 36, 2, 2);
+                    FillRectangle(g, Colors.SideTrinnary, 37, 37, 1, 1);
                     break;
                 }
 

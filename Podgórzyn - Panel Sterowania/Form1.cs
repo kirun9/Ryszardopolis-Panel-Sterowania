@@ -15,5 +15,10 @@
         {
             pulpit1.LockScale = checkBox1.Checked;
         }
+
+        private void Click_button1(object sender, System.EventArgs e)
+        {
+            pulpit1.Invalidate();
+        }
     }
 }

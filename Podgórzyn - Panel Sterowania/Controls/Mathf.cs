@@ -5,44 +5,44 @@
     [System.Diagnostics.DebuggerStepThrough]
     public static class Mathf
     {
-        public static int ClampMin(int value) => ClampMin(value, 0);
+        public static int ClampMin(this int value) => value.ClampMin(0);
 
-        public static int ClampMin(int value, int min)
+        public static int ClampMin(this int value, int min)
         {
             return (value < min) ? min : value;
         }
 
-        public static float ClampMin(float value) => ClampMin(value, 0);
+        public static float ClampMin(this float value) => value.ClampMin(0);
 
-        public static float ClampMin(float value, float min)
+        public static float ClampMin(this float value, float min)
         {
             return (value < min) ? min : value;
         }
 
-        public static int ClampMax(int value) => ClampMax(value, 0);
+        public static int ClampMax(this int value) => value.ClampMax(0);
 
-        public static int ClampMax(int value, int max)
+        public static int ClampMax(this int value, int max)
         {
             return (value > max) ? max : value;
         }
 
-        public static float ClampMax(float value) => ClampMax(value, 0);
+        public static float ClampMax(this float value) => value.ClampMax(0);
 
-        public static float ClampMax(float value, float max)
+        public static float ClampMax(this float value, float max)
         {
             return (value > max) ? max : value;
         }
 
-        public static int Clamp(int value, int max) => Clamp(value, 0, max);
+        public static int Clamp(this int value, int max) => value.Clamp(0, max);
 
-        public static int Clamp(int value, int min, int max)
+        public static int Clamp(this int value, int min, int max)
         {
             return (value < min) ? min : (value > max) ? max : value;
         }
 
-        public static float Clamp(float value, float max) => Clamp(value, 0, max);
+        public static float Clamp(this float value, float max) => value.Clamp(0, max);
 
-        public static float Clamp(float value, float min, float max)
+        public static float Clamp(this float value, float min, float max)
         {
             return (value < min) ? min : (value > max) ? max : value;
         }

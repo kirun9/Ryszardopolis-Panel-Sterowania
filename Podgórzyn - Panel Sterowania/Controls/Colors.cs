@@ -4,14 +4,14 @@
 
     public enum Colors
     {
-        Background   = 0xDCE0DE,
-        BorderMain   = 0x999999,
-        BorderSecond = 0x000000,
-        Black        = 0x000000,
-        SidePrimary  = 0x303030,
-        SideScondary = 0x202020,
-        SideTrinnary = 0x000000,
-        SideFilling  = 0x999999
+        Background    = 0xDCE0DE,
+        BorderMain    = 0x999999,
+        BorderSecond  = 0x000000,
+        Black         = 0x000000,
+        SidePrimary   = 0x303030,
+        SideSecondary = 0x202020,
+        SideTrinnary  = 0x000000,
+        SideFilling   = 0x999999
     }
 
     [System.Diagnostics.DebuggerStepThrough]

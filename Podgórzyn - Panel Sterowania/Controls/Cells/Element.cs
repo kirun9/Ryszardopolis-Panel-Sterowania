@@ -4,6 +4,8 @@
 
     public partial class Element
     {
+        private Font font;
+        private Font defaultFont = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point);
         private Point gridLocation;
         private Size size;
         private Size usize;
@@ -45,6 +47,12 @@
         public Point Location { get => location; set => location = value; }
 
         public float ElementScale { get => elementScale; set => elementScale = value; }
+
+        public Font DefaultFont => defaultFont;
+
+        public virtual Font Font { get => font ?? defaultFont; set => font = value; }
+
+        public Font ScaledFont => new Font(Font.Name, Font.Size * elementScale, Font.Style, Font.Unit);
 
         public virtual void UpdateBitmap(Graphics g)
         {

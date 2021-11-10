@@ -20,5 +20,10 @@
         {
             pulpit1.Invalidate();
         }
+
+        private void timer1_Tick(object sender, System.EventArgs e)
+        {
+            pulpit1.Invalidate();
+        }
     }
 }

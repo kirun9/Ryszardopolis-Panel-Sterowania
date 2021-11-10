@@ -72,5 +72,116 @@
             p2.Y = (Location.Y + (p2y * ElementScale) + penW).Clamp(Location.Y + penW, Location.Y + Size.Height - penW).Floor();
             g.DrawLine(pen, p1, p2);
         }
+
+        internal void DrawString(Graphics g, string s, Font font, Colors color, PointF point) => DrawString(g, s, font, color, point.X, point.Y);
+
+        internal void DrawString(Graphics g, string s, Font font, Color color, PointF point) => DrawString(g, s, font, color, point.X, point.Y);
+
+        internal void DrawString(Graphics g, string s, Font font, Colors color, float x, float y) => DrawString(g, s, font, color.ToColor(), x, y);
+
+        internal void DrawString(Graphics g, string s, Font font, Color color, float x, float y)
+        {
+            using Brush brush = new SolidBrush(color);
+            g.DrawString(s, font, brush, Location.X * elementScale + x * elementScale, Location.Y * elementScale + y * elementScale);
+        }
+
+        internal void DrawString(Graphics g, string s, Font font, Colors color, ContentAlignment alignment) => DrawString(g, s, font, color.ToColor(), new StringLocation() { Alignment = alignment });
+
+        internal void DrawString(Graphics g, string s, Font font, Color color, ContentAlignment alignment) => DrawString(g, s, font, color, new StringLocation() { Alignment = alignment });
+
+        internal void DrawString(Graphics g, string s, Font font, Colors color, StringLocation stringLocation) => DrawString(g, s, font, color.ToColor(), stringLocation);
+
+        internal void DrawString(Graphics g, string s, Font font, Color color, StringLocation stringLocation)
+        {
+            var size = g.MeasureString(s, font);
+            using SolidBrush brush = new SolidBrush(color);
+
+            PointF point = stringLocation.Alignment switch
+            {
+                ContentAlignment.TopCenter => new PointF((USize.Width / 2) - (size.Width / 2) + stringLocation.DeltaX, (USize.Width / 4) * 1 - (size.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.MiddleCenter => new PointF((USize.Width / 2) - (size.Width / 2) + stringLocation.DeltaX, (USize.Width / 4) * 2 - (size.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.BottomCenter => new PointF((USize.Width / 2) - (size.Width / 2) + stringLocation.DeltaX, (USize.Width / 4) * 3 - (size.Height / 2) + stringLocation.DeltaY),
+
+                ContentAlignment.TopLeft => new PointF(size.Width + size.Height / 2 + stringLocation.DeltaX, (USize.Width / 4) * 1 - (size.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.MiddleLeft => new PointF(size.Width + size.Height / 2 + stringLocation.DeltaX, (USize.Width / 4) * 2 - (size.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.BottomLeft => new PointF(size.Width + size.Height / 2 + stringLocation.DeltaX, (USize.Width / 4) * 3 - (size.Height / 2) + stringLocation.DeltaY),
+
+                ContentAlignment.TopRight => new PointF(USize.Width - size.Width - size.Height, (USize.Width / 4) * 1 - (size.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.MiddleRight => new PointF(USize.Width - size.Width - size.Height, (USize.Width / 4) * 2 - (size.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.BottomRight => new PointF(USize.Width - size.Width - size.Height, (USize.Width / 4) * 3 - (size.Height / 2) + stringLocation.DeltaY),
+
+                _ => new PointF(stringLocation.X + stringLocation.DeltaX, stringLocation.Y + stringLocation.DeltaY),
+            };
+
+            font = new Font(font.Name, font.Size * elementScale, font.Style, font.Unit);
+
+            point = new PointF((point.X) * ElementScale + Location.X, (point.Y) * ElementScale + Location.Y);
+
+            g.DrawString(s, font, brush, point);
+        }
+    }
+
+    public struct StringLocation
+    {
+        private ContentAlignment alignment = ContentAlignment.MiddleCenter;
+        private float rotation;
+
+        private float x;
+        private float y;
+
+        private float dX;
+        private float dY;
+
+        public float Rotation { get => rotation; set => rotation = value % 360; }
+
+        public float X
+        {
+            get
+            {
+                return x;
+            }
+            set
+            {
+                x = value;
+            }
+        }
+
+        public float Y
+        {
+            get
+            {
+                return y;
+            }
+            set
+            {
+                y = value;
+            }
+        }
+
+        public float DeltaX
+        {
+            get
+            {
+                return dX;
+            }
+            set
+            {
+                dX = value;
+            }
+        }
+
+        public float DeltaY
+        {
+            get
+            {
+                return dY;
+            }
+            set
+            {
+                dY = value;
+            }
+        }
+
+        public ContentAlignment Alignment { get => alignment; set => alignment = value; }
     }
 }

@@ -29,9 +29,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.pulpit1 = new PodgórzynPanelSterowania.Controls.Pulpit();
             this.button1 = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.pulpit1 = new PodgórzynPanelSterowania.Controls.Pulpit();
             this.SuspendLayout();
             // 
             // checkBox1
@@ -45,17 +47,6 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             // 
-            // pulpit1
-            // 
-            this.pulpit1.Dimensions = new System.Drawing.Size(3, 3);
-            this.pulpit1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pulpit1.Location = new System.Drawing.Point(0, 0);
-            this.pulpit1.LockScale = true;
-            this.pulpit1.Name = "pulpit1";
-            this.pulpit1.Size = new System.Drawing.Size(1568, 902);
-            this.pulpit1.TabIndex = 2;
-            this.pulpit1.Text = "pulpit1";
-            // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -66,6 +57,23 @@
             this.button1.Text = "Update";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Click_button1);
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // pulpit1
+            // 
+            this.pulpit1.Dimensions = new System.Drawing.Size(23, 16);
+            this.pulpit1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pulpit1.Location = new System.Drawing.Point(0, 0);
+            this.pulpit1.LockScale = true;
+            this.pulpit1.Name = "pulpit1";
+            this.pulpit1.Size = new System.Drawing.Size(1568, 902);
+            this.pulpit1.TabIndex = 2;
+            this.pulpit1.Text = "pulpit1";
             // 
             // Form1
             // 
@@ -86,6 +94,7 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private Controls.Pulpit pulpit1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

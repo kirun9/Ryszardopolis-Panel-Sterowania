@@ -1,4 +1,4 @@
-﻿namespace PodgórzynPanelSterowania
+﻿namespace RyszardopolisPanelSterowania
 {
     using System;
     using System.Windows.Forms;

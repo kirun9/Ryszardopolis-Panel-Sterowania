@@ -1,11 +1,11 @@
-﻿namespace PodgórzynPanelSterowania.Controls
+﻿namespace RyszardopolisPanelSterowania.Controls
 {
     using System.Collections;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
 
-    using PodgórzynPanelSterowania.Controls.Cells;
+    using RyszardopolisPanelSterowania.Controls.Cells;
 
     [System.Diagnostics.DebuggerStepThrough]
     public class CellHolder : IEnumerable<Element>
@@ -13,6 +13,8 @@
         protected Size Grid { get; set; } = new Size(0, 0);
 
         private Element[] Cells { get; set; } = new Element[0];
+
+        public int Count => Cells.Length;
 
         public Element this[int index]
         {

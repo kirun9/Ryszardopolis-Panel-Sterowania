@@ -9,42 +9,48 @@
 
         public static int ClampMin(this int value, int min)
         {
-            return (value < min) ? min : value;
+            value = (value < min) ? min : value;
+            return value;
         }
 
         public static float ClampMin(this float value) => value.ClampMin(0);
 
         public static float ClampMin(this float value, float min)
         {
-            return (value < min) ? min : value;
+            value = (value < min) ? min : value;
+            return value;
         }
 
         public static int ClampMax(this int value) => value.ClampMax(0);
 
         public static int ClampMax(this int value, int max)
         {
-            return (value > max) ? max : value;
+            value = (value > max) ? max : value;
+            return value;
         }
 
         public static float ClampMax(this float value) => value.ClampMax(0);
 
         public static float ClampMax(this float value, float max)
         {
-            return (value > max) ? max : value;
+            value = (value > max) ? max : value;
+            return value;
         }
 
         public static int Clamp(this int value, int max) => value.Clamp(0, max);
 
         public static int Clamp(this int value, int min, int max)
         {
-            return (value < min) ? min : (value > max) ? max : value;
+            value = (value < min) ? min : (value > max) ? max : value;
+            return value;
         }
 
         public static float Clamp(this float value, float max) => value.Clamp(0, max);
 
         public static float Clamp(this float value, float min, float max)
         {
-            return (value < min) ? min : (value > max) ? max : value;
+            value = (value < min) ? min : (value > max) ? max : value;
+            return value;
         }
 
         public static Point Max(this Point value, Point max)

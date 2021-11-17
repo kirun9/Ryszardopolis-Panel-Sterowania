@@ -1,4 +1,4 @@
-﻿namespace PodgórzynPanelSterowania.Controls.Cells
+﻿namespace RyszardopolisPanelSterowania.Controls.Cells
 {
     using System;
     using System.Drawing;
@@ -26,25 +26,25 @@
 
         public SideLocation Side { get => side; set => side = value; }
 
-        public override void DrawBorder(Graphics g)
+        protected override void DrawBorder(Graphics g)
         {
         }
 
-        public override void DrawContent(Graphics g)
+        protected override void DrawContent(Graphics g)
         {
             switch (Side)
             {
                 case SideLocation.Top:
                 {
-                    FillRectangle(g, Colors.SidePrimary, 0, 0, USize.Width, USize.Height);
+                    FillRectangle(g, Colors.SidePrimary, 0, 0, Size.Width, Size.Height);
 
-                    DrawLineRect(g, Colors.SideSecondary, 0, 2, USize.Width, 0);
-                    DrawLineRect(g, Colors.SideSecondary, 0, 36, USize.Width, 0);
+                    DrawLineRect(g, Colors.SideSecondary, 0, 2, Size.Width, 0);
+                    DrawLineRect(g, Colors.SideSecondary, 0, 37, Size.Width, 0);
 
-                    DrawLineRect(g, Colors.SideTrinnary, 0, 1, USize.Width, 0);
-                    DrawLineRect(g, Colors.SideTrinnary, 0, 37, USize.Width, 0);
+                    DrawLineRect(g, Colors.SideTrinnary, 0, 1, Size.Width, 0);
+                    DrawLineRect(g, Colors.SideTrinnary, 0, 38, Size.Width, 0);
 
-                    DrawLineRect(g, Colors.SideFilling, 0, 0, USize.Width, 0);
+                    DrawLineRect(g, Colors.SideFilling, 0, 0, Size.Width, 0);
 
                     DrawString(g, GridLocation.X.ToString("D2"), Font, Colors.Black, ContentAlignment.BottomCenter);
 
@@ -53,15 +53,15 @@
 
                 case SideLocation.Bottom:
                 {
-                    FillRectangle(g, Colors.SidePrimary, 0, 0, USize.Width, USize.Height);
+                    FillRectangle(g, Colors.SidePrimary, 0, 0, Size.Width, Size.Height);
 
-                    DrawLineRect(g, Colors.SideSecondary, 0, 1, USize.Width, 0);
-                    DrawLineRect(g, Colors.SideSecondary, 0, 37, USize.Width, 0);
+                    DrawLineRect(g, Colors.SideSecondary, 0, 1, Size.Width, 0);
+                    DrawLineRect(g, Colors.SideSecondary, 0, 36, Size.Width, 0);
 
-                    DrawLineRect(g, Colors.SideTrinnary, 0, 0, USize.Width, 0);
-                    DrawLineRect(g, Colors.SideTrinnary, 0, 36, USize.Width, 0);
+                    DrawLineRect(g, Colors.SideTrinnary, 0, 0, Size.Width, 0);
+                    DrawLineRect(g, Colors.SideTrinnary, 0, 37, Size.Width, 0);
 
-                    DrawLineRect(g, Colors.SideFilling, 0, 37, USize.Width, 0);
+                    DrawLineRect(g, Colors.SideFilling, 0, 38, Size.Width, 0);
 
                     DrawString(g, GridLocation.X.ToString("D2"), Font, Colors.Black, ContentAlignment.TopCenter);
 
@@ -70,15 +70,15 @@
 
                 case SideLocation.Left:
                 {
-                    FillRectangle(g, Colors.SidePrimary, 0, 0, USize.Width, USize.Height);
+                    FillRectangle(g, Colors.SidePrimary, 0, 0, Size.Width, Size.Height);
 
-                    DrawLineRect(g, Colors.SideSecondary, 2, 0, 0, USize.Height);
-                    DrawLineRect(g, Colors.SideSecondary, 36, 0, 0, USize.Height);
+                    DrawLineRect(g, Colors.SideSecondary, 2, 0, 0, Size.Height);
+                    DrawLineRect(g, Colors.SideSecondary, 37, 0, 0, Size.Height);
 
-                    DrawLineRect(g, Colors.SideTrinnary, 1, 0, 0, USize.Height);
-                    DrawLineRect(g, Colors.SideTrinnary, 37, 0, 0, USize.Height);
+                    DrawLineRect(g, Colors.SideTrinnary, 1, 0, 0, Size.Height);
+                    DrawLineRect(g, Colors.SideTrinnary, 38, 0, 0, Size.Height);
 
-                    DrawLineRect(g, Colors.SideFilling, 0, 0, 0, USize.Height);
+                    DrawLineRect(g, Colors.SideFilling, 0, 0, 0, Size.Height);
 
                     DrawString(g, GridLocation.Y.ToString("D2"), Font, Colors.Black, ContentAlignment.MiddleRight);
 
@@ -87,15 +87,15 @@
 
                 case SideLocation.Right:
                 {
-                    FillRectangle(g, Colors.SidePrimary, 0, 0, USize.Width, USize.Height);
+                    FillRectangle(g, Colors.SidePrimary, 0, 0, Size.Width, Size.Height);
 
-                    DrawLineRect(g, Colors.SideSecondary, 1, 0, 0, USize.Height);
-                    DrawLineRect(g, Colors.SideSecondary, 35, 0, 0, USize.Height);
+                    DrawLineRect(g, Colors.SideSecondary, 1, 0, 0, Size.Height);
+                    DrawLineRect(g, Colors.SideSecondary, 36, 0, 0, Size.Height);
 
-                    DrawLineRect(g, Colors.SideTrinnary, 0, 0, 0, USize.Height);
-                    DrawLineRect(g, Colors.SideTrinnary, 36, 0, 0, USize.Height);
+                    DrawLineRect(g, Colors.SideTrinnary, 0, 0, 0, Size.Height);
+                    DrawLineRect(g, Colors.SideTrinnary, 37, 0, 0, Size.Height);
 
-                    DrawLineRect(g, Colors.SideFilling, 37, 0, 0, USize.Height);
+                    DrawLineRect(g, Colors.SideFilling, 38, 0, 0, Size.Height);
 
                     DrawString(g, GridLocation.Y.ToString("D2"), Font, Colors.Black, ContentAlignment.MiddleLeft);
                     break;
@@ -103,51 +103,113 @@
 
                 case SideLocation.TopLeft:
                 {
-                    FillRectangle(g, Colors.SideFilling, 0, 0, USize.Width, USize.Height);
+                    FillRectangle(g, Colors.SideFilling, 0, 0, Size.Width, Size.Height);
+                    FillRectangle(g, Colors.SidePrimary, 2, 2, Size.Width, Size.Height);
 
-                    FillRectangle(g, Colors.SidePrimary, 2, 2, USize.Width, USize.Height);
+                    // Diagonal Line
+                    DrawLine(g, Colors.SideSecondary, 3, 3, Size.Width - 1, Size.Height - 1);
 
-                    DrawLineRect(g, Colors.SideFilling, 0, 0, USize.Width, 0);
-                    DrawLineRect(g, Colors.SideFilling, 0, 0, 0, USize.Height);
+                    using Pen pen = new Pen(Colors.SideSecondary.ToColor(), 1);
+                    pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Square;
+                    g.DrawArc(pen, 2.5f, 2.5f, 2.5f, 2.5f, -180, 90);
+                    pen.Color = Colors.SideTrinnary.ToColor();
+                    g.DrawArc(pen, 1.5f, 1.5f, 5, 5, -180, 90);
 
-                    DrawLine(g, Colors.SideSecondary, 3, 3, USize.Width - 1, USize.Height - 1);
+                    DrawLine(g, Colors.SideTrinnary, 4, 1, Size.Width, 1);
+                    DrawLine(g, Colors.SideTrinnary, 1, 4, 1, Size.Width); // Czarne linie
 
-                    DrawLine(g, Colors.SideTrinnary, 2, 2, 3, 2);
-                    DrawLine(g, Colors.SideTrinnary, 2, 2, 2, 3);
+                    DrawLine(g, Colors.SideSecondary, 4, 2, Size.Width, 2); // Szare Linie
+                    DrawLine(g, Colors.SideSecondary, 2, 4, 2, Size.Width);
 
-                    DrawLine(g, Colors.SideTrinnary, 4, 1, USize.Width, 1);
-                    DrawLine(g, Colors.SideTrinnary, 1, 4, 1, USize.Width);
+                    DrawRectangle(g, Colors.SideTrinnary, 37.5f, 37.5f, 0.5f, 0.5f);
 
-                    DrawLine(g, Colors.SideSecondary, 4, 2, USize.Width, 2);
-                    DrawLine(g, Colors.SideSecondary, 2, 4, 2, USize.Width);
+                    DrawLine(g, Colors.SideSecondary, 37, 37, 37, 38); // Small Corner
+                    DrawLine(g, Colors.SideSecondary, 37, 37, 38, 37);
 
-                    FillRectangle(g, Colors.SideSecondary, 36, 36, 2, 2);
-                    FillRectangle(g, Colors.SideTrinnary, 37, 37, 1, 1);
                     break;
                 }
 
                 case SideLocation.TopRight:
                 {
-                    FillRectangle(g, Colors.SideFilling, 0, 0, USize.Width, USize.Height);
+                    FillRectangle(g, Colors.SideFilling, 0, 0, Size.Width, Size.Height);
+                    FillRectangle(g, Colors.SidePrimary, 0, 2, Size.Width - 2, Size.Height - 2);
 
-                    FillRectangle(g, Colors.SidePrimary, 0, 2, USize.Width - 2, USize.Height - 2);
+                    // Diagonal Line
+                    DrawLine(g, Colors.SideSecondary, Size.Width - 3, 3, 1, Size.Height - 1);
 
-                    DrawLineRect(g, Colors.SideFilling, 0, 0, USize.Width, 0);
-                    DrawLineRect(g, Colors.SideFilling, USize.Width, 0, USize.Width, USize.Height);
+                    using Pen pen = new Pen(Colors.SideSecondary.ToColor(), 1);
+                    pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Square;
+                    g.DrawArc(pen, 33f, 2.5f, 2.5f, 2.5f, -90, 90);
+                    pen.Color = Colors.SideTrinnary.ToColor();
+                    g.DrawArc(pen, 31.5f, 1.5f, 5, 5, -90, 90);
 
-                    DrawLine(g, Colors.SideSecondary, USize.Width - 4, 3, 1, USize.Height - 2);
+                    DrawLine(g, Colors.SideTrinnary, 0, 1, Size.Width - 4, 1);
+                    DrawLine(g, Colors.SideTrinnary, Size.Width - 1, 4, Size.Width - 1, Size.Height);
 
-                    DrawLine(g, Colors.SideTrinnary, USize.Width - 3, 2, USize.Width - 4, 2);
-                    DrawLine(g, Colors.SideTrinnary, USize.Width - 3, 2, USize.Width - 3, 3);
+                    DrawLine(g, Colors.SideSecondary, 0, 2, Size.Width - 4, 2);
+                    DrawLine(g, Colors.SideSecondary, Size.Width - 2, 4, Size.Width - 2, Size.Height);
 
-                    DrawLine(g, Colors.SideTrinnary, 0, 1, USize.Width - 5, 1);
-                    DrawLine(g, Colors.SideTrinnary, USize.Width - 2, 4, USize.Width - 2, USize.Width);
+                    DrawRectangle(g, Colors.SideTrinnary, 0.5f, 37.5f, 0.5f, 0.5f);
 
-                    DrawLine(g, Colors.SideSecondary, 0, 2, USize.Width - 5, 2);
-                    DrawLine(g, Colors.SideSecondary, USize.Width - 3, 4, USize.Width - 3, USize.Width);
+                    DrawLine(g, Colors.SideSecondary, 1, 37, 1, 38);
+                    DrawLine(g, Colors.SideSecondary, 0, 37, 1, 37);
 
-                    FillRectangle(g, Colors.SideSecondary, 0, 36, 2, 2);
-                    FillRectangle(g, Colors.SideTrinnary, 0, 37, 1, 1);
+                    break;
+                }
+
+                case SideLocation.BottomLeft:
+                {
+                    FillRectangle(g, Colors.SideFilling, 0, 0, Size.Width, Size.Height);
+                    FillRectangle(g, Colors.SidePrimary, 2, 0, Size.Width - 2, Size.Height - 2);
+
+                    // Diagonal Line
+                    DrawLine(g, Colors.SideSecondary, Size.Width - 1, 1, 3, Size.Height - 3);
+
+                    using Pen pen = new Pen(Colors.SideSecondary.ToColor(), 1);
+                    pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Square;
+                    g.DrawArc(pen, 2.5f, 33, 2.5f, 2.5f, -270, 90);
+                    pen.Color = Colors.SideTrinnary.ToColor();
+                    g.DrawArc(pen, 1.5f, 31.5f, 5, 5, -270, 90);
+
+                    DrawLine(g, Colors.SideTrinnary, 4, Size.Height - 1, Size.Width, Size.Height - 1);
+                    DrawLine(g, Colors.SideTrinnary, 1, 0, 1, Size.Width - 4); // Czarne linie
+
+                    DrawLine(g, Colors.SideSecondary, 4, Size.Height - 2, Size.Width, Size.Height - 2); // Szare Linie
+                    DrawLine(g, Colors.SideSecondary, 2, 0, 2, Size.Width - 4);
+
+                    DrawRectangle(g, Colors.SideTrinnary, 37.5f, 0.5f, 0.5f, 0.5f);
+
+                    DrawLine(g, Colors.SideSecondary, 37, 0, 37, 1); // Small Corner
+                    DrawLine(g, Colors.SideSecondary, 37, 1, 38, 1);
+
+                    break;
+                }
+
+                case SideLocation.BottomRight:
+                {
+                    FillRectangle(g, Colors.SideFilling, 0, 0, Size.Width, Size.Height);
+                    FillRectangle(g, Colors.SidePrimary, 0, 0, Size.Width - 2, Size.Height - 2);
+
+                    // Diagonal Line
+                    DrawLine(g, Colors.SideSecondary, 1, 1, Size.Width - 3, Size.Height - 3);
+
+                    using Pen pen = new Pen(Colors.SideSecondary.ToColor(), 1);
+                    pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Square;
+                    g.DrawArc(pen, 33f, 33f, 2.5f, 2.5f, 0, 90);
+                    pen.Color = Colors.SideTrinnary.ToColor();
+                    g.DrawArc(pen, 31.5f, 31.5f, 5, 5, 0, 90);
+
+                    DrawLine(g, Colors.SideTrinnary, 0, Size.Height - 1, Size.Width - 4, Size.Height - 1);
+                    DrawLine(g, Colors.SideTrinnary, Size.Width - 1, 0, Size.Width - 1, Size.Height - 4);
+
+                    DrawLine(g, Colors.SideSecondary, 0, Size.Height - 2, Size.Width - 4, Size.Height - 2);
+                    DrawLine(g, Colors.SideSecondary, Size.Width - 2, 0, Size.Width - 2, Size.Height - 4);
+
+                    DrawRectangle(g, Colors.SideTrinnary, 0.5f, 0.5f, 0.5f, 0.5f);
+
+                    DrawLine(g, Colors.SideSecondary, 1, 1, 1, 0);
+                    DrawLine(g, Colors.SideSecondary, 0, 1, 1, 1);
+
                     break;
                 }
 

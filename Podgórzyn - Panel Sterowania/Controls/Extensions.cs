@@ -1,4 +1,4 @@
-﻿namespace PodgórzynPanelSterowania.Extensions
+﻿namespace RyszardopolisPanelSterowania.Extensions
 {
     using System;
     using System.Drawing;
@@ -38,6 +38,11 @@
         public static bool IsBetween(this int val, int boundary1, int boundary2)
         {
             return (boundary1 < boundary2) ? (val >= boundary1 && val <= boundary2) : (val <= boundary1 && val >= boundary2);
+        }
+
+        public static int Round(this float value)
+        {
+            return (int) Math.Round(value);
         }
 
         public static int Ceiling(this float value)

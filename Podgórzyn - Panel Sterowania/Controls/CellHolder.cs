@@ -14,6 +14,8 @@
 
         private Element[] Cells { get; set; } = new Element[0];
 
+        public int Count => Cells.Length;
+
         public Element this[int index]
         {
             get

@@ -6,12 +6,10 @@
     public partial class Element
     {
         private Font font;
-        private Font defaultFont = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point);
+        private readonly Font defaultFont = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point);
         private Point gridLocation;
         private Size size;
         private Point location;
-        private float elementScale;
-        private Func<float, int> roundingMethod = Extensions.Extensions.Floor;
 
         public Point GridLocation
         {
@@ -68,7 +66,6 @@
 
             if (DrawBottomBigger)
             {
-                //DrawLineRect(g, Colors.Red, 0, Size.Height, Size.Width, 0);
                 DrawLineRect(g, Colors.BorderMain, 0, Size.Height, Size.Width, 0);
                 DrawLineRect(g, Colors.BorderSecond, 12, Size.Height, 4, 0);
                 DrawLineRect(g, Colors.BorderSecond, 22, Size.Height, 4, 0);
@@ -84,17 +81,6 @@
 
         protected virtual void DrawContent(Graphics g)
         {
-        }
-
-        public void SetRoundingMethod(RoundingMethod method)
-        {
-            roundingMethod = method switch
-            {
-                RoundingMethod.Round => Extensions.Extensions.Round,
-                RoundingMethod.Floor => Extensions.Extensions.Floor,
-                RoundingMethod.Ceiling => Extensions.Extensions.Ceiling,
-                _ => Extensions.Extensions.Floor,
-            };
         }
     }
 }

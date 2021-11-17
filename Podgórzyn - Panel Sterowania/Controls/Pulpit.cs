@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-    using System.Drawing.Drawing2D;
     using System.Windows.Forms;
 
     using RyszardopolisPanelSterowania.Controls.Cells;
@@ -18,6 +17,7 @@
 
         private bool lockScale = false;
         private float pulpitScale;
+        private float bitmapScale = 10;
 
         public Pulpit()
         {
@@ -34,11 +34,11 @@
             }
         }
 
-        public Size NewPulpitSize
+        public Size BitmapSize
         {
             get
             {
-                return new Size(dimensions.Width * (int) defaultCellSize + 1, dimensions.Height * (int) defaultCellSize + 1);
+                return new Size((int) (bitmapScale + (dimensions.Width * defaultCellSize * bitmapScale)), (int) (bitmapScale + (dimensions.Height * defaultCellSize * bitmapScale)));
             }
         }
 
@@ -169,46 +169,29 @@
 
             CalculateElementsLocations();
 
-            Bitmap bitmap = new Bitmap(PulpitSize.Width, PulpitSize.Height);
-            Graphics g = Graphics.FromImage(bitmap);
+            Bitmap bitmap = new Bitmap(BitmapSize.Width, BitmapSize.Height);
+            using Graphics g = Graphics.FromImage(bitmap);
 
             using (SolidBrush brush = new SolidBrush(Colors.Black.ToColor()))
             {
-                g.FillRectangle(brush, 0, 0, PulpitSize.Width, PulpitSize.Height);
+                g.FillRectangle(brush, 0, 0, bitmap.Width, bitmap.Height);
             }
 
-            g.ScaleTransform(PulpitScale, PulpitScale);
+            g.ScaleTransform(bitmapScale, bitmapScale);
 
             var origTransform = g.Transform;
-            for (int x = 0; x < dimensions.Width; x++)
+
+            foreach (var cell in cells)
             {
-                for (int y = 0; y < dimensions.Height; y++)
-                {
-                    var cell = cells[x, y];
-                    g.TranslateTransform(cell.Location.X, cell.Location.Y);
-                    cell.DrawCell(g);
-                    g.Transform = origTransform;
-                }
+                g.TranslateTransform(cell.Location.X, cell.Location.Y);
+                cell.DrawCell(g);
+                g.Transform = origTransform;
             }
             g.ResetTransform();
 
-            /*var transform = g.Transform;
-            for (int x = 0; x < dimensions.Width; x++)
-            {
-                for (int y = 0; y < dimensions.Height; y++)
-                {
-                    var cell = cells[x, y];
-                    cell.DrawCell(g);
-                    float toAddY = cell.GridLocation.Y == dimensions.Height - 2 ? defaultCellSize + 2 : defaultCellSize;
-                    g.TranslateTransform(0, toAddY);
-                    g.Transform = transform;
-                }
-                float toAddX = cells[x, 0].GridLocation.X == dimensions.Width - 2 ? defaultCellSize + 2 : defaultCellSize;
-                g.TranslateTransform(toAddX, 0);
-            }
-            g.ResetTransform();*/
+            Bitmap scaled = new Bitmap(bitmap, PulpitSize.Width, PulpitSize.Height);
 
-            e.Graphics.DrawImageUnscaled(bitmap, 0, 0);
+            e.Graphics.DrawImage(scaled, 0, 0, PulpitSize.Width, PulpitSize.Height);
         }
 
         protected override void OnLayout(LayoutEventArgs levent)
@@ -296,12 +279,12 @@
 
                 if (cell.GridLocation.X == dimensions.Width - 1)
                 {
-                    cellX = (cell.GridLocation.X - 1) * cell.Size.Width + (int) (defaultCellSize + 2);
+                    cellX = (cell.GridLocation.X - 1) * cell.Size.Width + (int) (defaultCellSize + 1);
                 }
 
                 if (cell.GridLocation.Y == dimensions.Height - 1)
                 {
-                    cellY = (cell.GridLocation.Y - 1) * cell.Size.Height + (int) (defaultCellSize + 2);
+                    cellY = (cell.GridLocation.Y - 1) * cell.Size.Height + (int) (defaultCellSize + 1);
                 }
 
                 cell.Location = new Point(cellX, cellY);

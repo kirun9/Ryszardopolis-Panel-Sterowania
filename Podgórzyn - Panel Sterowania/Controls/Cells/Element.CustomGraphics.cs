@@ -1,9 +1,6 @@
 ﻿namespace RyszardopolisPanelSterowania.Controls.Cells
 {
-    using RyszardopolisPanelSterowania.Extensions;
-
     using System.Drawing;
-    using System.Mathf;
 
     public partial class Element
     {
@@ -12,24 +9,6 @@
         internal void FillRectangle(Graphics g, Color color, float x, float y, float width, float height)
         {
             using Brush brush = new SolidBrush(color);
-            /*//x = (x * elementScale).Floor() + location.X;
-            //y = (y * elementScale).Floor() + location.Y;
-
-            x = roundingMethod.Invoke(x * elementScale) + location.X;
-            y = roundingMethod.Invoke(y * elementScale) + location.Y;
-
-            //width = (width * elementScale).Floor();
-            //height = (height * elementScale).Floor();
-
-            width = roundingMethod.Invoke(width * elementScale);
-            height = roundingMethod.Invoke(height * elementScale);*/
-
-            ////x = (x * elementScale) + location.X;
-            ////y = (y * elementScale) + location.Y;
-            ////
-            ////width = (width * elementScale);
-            ////height = (height * elementScale);
-
             g.FillRectangle(brush, x, y, width, height);
         }
 
@@ -45,27 +24,6 @@
 
         internal void DrawRectangle(Graphics g, Pen pen, float x, float y, float width, float height)
         {
-            //x += Location.X;
-            //y += Location.Y;
-            //
-            ///*//x *= ElementScale;
-            ////y *= ElementScale;
-            //
-            //x = roundingMethod.Invoke(x * elementScale);
-            //y = roundingMethod.Invoke(y * elementScale);
-            //
-            ////width *= ElementScale;
-            ////height *= ElementScale;
-            //
-            //width = roundingMethod.Invoke(width * elementScale);
-            //height = roundingMethod.Invoke(height * elementScale);*/
-            //
-            //x = x * elementScale;
-            //y = y * elementScale;
-            //
-            //width = width * elementScale;
-            //height = height * elementScale;
-
             g.DrawRectangle(pen, x, y, width, height);
         }
 
@@ -92,23 +50,14 @@
         internal void DrawLine(Graphics g, Pen pen, float p1x, float p1y, float p2x, float p2y)
         {
             float penW = pen.Width / 2;
+
+            p1x += (p1x > Size.Width / 2 ? -penW : (p1x == Size.Width / 2 ? 0 : penW));
+            p1y += (p1y > Size.Height / 2 ? -penW : (p1y == Size.Height / 2 ? 0 : penW));
+            p2x += (p2x > Size.Width / 2 ? -penW : (p2x == Size.Width / 2 ? 0 : penW));
+            p2y += (p2y > Size.Height / 2 ? -penW : (p2y == Size.Height / 2 ? 0 : penW));
+
             PointF p1 = new PointF(p1x, p1y);
             PointF p2 = new PointF(p2x, p2y);
-
-            /*p1x.Clamp(penW, Size.Width - penW);
-            p1y.Clamp(penW, Size.Height - penW);
-            p2x.Clamp(penW, Size.Width - penW);
-            p2y.Clamp(penW, size.Height - penW);*/
-
-            /*p1.X = (Location.X + p1x + penW).Clamp(Location.X + penW, Location.X + Size.Width - penW);
-            p1.Y = (Location.Y + p1y + penW).Clamp(Location.Y + penW, Location.Y + Size.Height - penW);
-            p2.X = (Location.X + p2x + penW).Clamp(Location.X + penW, Location.X + Size.Width - penW);
-            p2.Y = (Location.Y + p2y + penW).Clamp(Location.Y + penW, Location.Y + Size.Height - penW);*/
-
-            /*p1.X = roundingMethod.Invoke(p1.X);
-            p1.Y = roundingMethod.Invoke(p1.Y);
-            p2.X = roundingMethod.Invoke(p2.X);
-            p2.Y = roundingMethod.Invoke(p2.Y);*/
             g.DrawLine(pen, p1, p2);
         }
 

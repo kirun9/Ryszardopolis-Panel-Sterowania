@@ -1,4 +1,4 @@
-﻿namespace PodgórzynPanelSterowania.Controls
+﻿namespace RyszardopolisPanelSterowania.Controls
 {
     public partial class Pulpit
     {

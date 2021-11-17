@@ -1,6 +1,6 @@
-﻿namespace PodgórzynPanelSterowania.Controls
+﻿namespace RyszardopolisPanelSterowania.Controls
 {
-    using PodgórzynPanelSterowania.Controls.Cells;
+    using RyszardopolisPanelSterowania.Controls.Cells;
 
     [System.Diagnostics.DebuggerStepThrough]
     public static class ElementExtensions

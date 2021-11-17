@@ -1,5 +1,6 @@
-﻿namespace PodgórzynPanelSterowania.Controls.Cells
+﻿namespace RyszardopolisPanelSterowania.Controls.Cells
 {
+    using System;
     using System.Drawing;
 
     public partial class Element
@@ -8,9 +9,9 @@
         private Font defaultFont = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point);
         private Point gridLocation;
         private Size size;
-        private Size usize;
         private Point location;
         private float elementScale;
+        private Func<float, int> roundingMethod = Extensions.Extensions.Floor;
 
         public Point GridLocation
         {
@@ -38,34 +39,27 @@
             }
         }
 
-        public Size USize { get => usize; set => usize = value; }
-
         public bool DrawBottomBigger { get; set; }
 
         public bool DrawRightBigger { get; set; }
 
         public Point Location { get => location; set => location = value; }
 
-        public float ElementScale { get => elementScale; set => elementScale = value; }
-
+        public virtual Font Font { get => font; set => font = value; }
         public Font DefaultFont => defaultFont;
 
-        public virtual Font Font { get => font ?? defaultFont; set => font = value; }
-
-        public Font ScaledFont => new Font(Font.Name, Font.Size * elementScale, Font.Style, Font.Unit);
-
-        public virtual void UpdateBitmap(Graphics g)
+        public void DrawCell(Graphics g)
         {
             DrawBorder(g);
             DrawContent(g);
         }
 
-        public virtual void DrawBorder(Graphics g)
+        protected virtual void DrawBorder(Graphics g)
         {
-            FillRectangle(g, Colors.Background, 0, 0, USize.Width, USize.Height);
+            FillRectangle(g, Colors.Background, 0, 0, Size.Width, Size.Height);
 
-            DrawLine(g, Colors.BorderMain, 0, 0, 0, USize.Height);
-            DrawLine(g, Colors.BorderMain, 0, 0, USize.Width, 0);
+            DrawLine(g, Colors.BorderMain, 0, 0, 0, Size.Height);
+            DrawLine(g, Colors.BorderMain, 0, 0, Size.Width, 0);
 
             DrawLineRect(g, Colors.BorderSecond, 0, 12, 0, 4);
             DrawLineRect(g, Colors.BorderSecond, 0, 22, 0, 4);
@@ -74,21 +68,33 @@
 
             if (DrawBottomBigger)
             {
-                DrawLineRect(g, Colors.BorderMain, 0, USize.Height, USize.Width, 0);
-                DrawLineRect(g, Colors.BorderSecond, 12, USize.Height, 4, 0);
-                DrawLineRect(g, Colors.BorderSecond, 22, USize.Height, 4, 0);
+                //DrawLineRect(g, Colors.Red, 0, Size.Height, Size.Width, 0);
+                DrawLineRect(g, Colors.BorderMain, 0, Size.Height, Size.Width, 0);
+                DrawLineRect(g, Colors.BorderSecond, 12, Size.Height, 4, 0);
+                DrawLineRect(g, Colors.BorderSecond, 22, Size.Height, 4, 0);
             }
 
             if (DrawRightBigger)
             {
-                DrawLineRect(g, Colors.BorderMain, USize.Width, 0, 0, USize.Height);
-                DrawLineRect(g, Colors.BorderSecond, USize.Width, 12, 0, 4);
-                DrawLineRect(g, Colors.BorderSecond, USize.Width, 22, 0, 4);
+                DrawLineRect(g, Colors.BorderMain, Size.Width, 0, 0, Size.Height);
+                DrawLineRect(g, Colors.BorderSecond, Size.Width, 12, 0, 4);
+                DrawLineRect(g, Colors.BorderSecond, Size.Width, 22, 0, 4);
             }
         }
 
-        public virtual void DrawContent(Graphics g)
+        protected virtual void DrawContent(Graphics g)
         {
+        }
+
+        public void SetRoundingMethod(RoundingMethod method)
+        {
+            roundingMethod = method switch
+            {
+                RoundingMethod.Round => Extensions.Extensions.Round,
+                RoundingMethod.Floor => Extensions.Extensions.Floor,
+                RoundingMethod.Ceiling => Extensions.Extensions.Ceiling,
+                _ => Extensions.Extensions.Floor,
+            };
         }
     }
 }

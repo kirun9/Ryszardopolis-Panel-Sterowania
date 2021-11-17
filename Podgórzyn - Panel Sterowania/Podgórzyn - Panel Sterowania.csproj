@@ -53,6 +53,7 @@
     <Compile Include="Controls\Cells\Element.CustomGraphics.cs">
       <DependentUpon>Element.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Cells\RoundingMethod.cs" />
     <Compile Include="Controls\Cells\SideElement.cs" />
     <Compile Include="Controls\Colors.cs" />
     <Compile Include="Controls\ElementExtensions.cs" />

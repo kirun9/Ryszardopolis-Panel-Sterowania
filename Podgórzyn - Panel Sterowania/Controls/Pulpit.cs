@@ -1,21 +1,22 @@
-﻿namespace PodgórzynPanelSterowania.Controls
+﻿namespace RyszardopolisPanelSterowania.Controls
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Drawing.Drawing2D;
     using System.Windows.Forms;
 
-    using PodgórzynPanelSterowania.Controls.Cells;
-    using PodgórzynPanelSterowania.Extensions;
+    using RyszardopolisPanelSterowania.Controls.Cells;
+    using RyszardopolisPanelSterowania.Extensions;
 
     public partial class Pulpit : Control
     {
-        private readonly float defaultCellSize = 4 * 9.5f;
+        private readonly float defaultCellSize = 38; // 9,5
 
         private Size dimensions;
         private CellHolder cells;
 
-        private bool lockScale = true;
+        private bool lockScale = false;
         private float pulpitScale;
 
         public Pulpit()
@@ -33,11 +34,19 @@
             }
         }
 
+        public Size NewPulpitSize
+        {
+            get
+            {
+                return new Size(dimensions.Width * (int) defaultCellSize + 1, dimensions.Height * (int) defaultCellSize + 1);
+            }
+        }
+
         public float PulpitScale
         {
             get
             {
-                return lockScale ? 3 : pulpitScale;
+                return lockScale ? 1.3f : pulpitScale;
             }
         }
 
@@ -70,6 +79,7 @@
                 internalY = value.Height;
                 Size = new Size((int) ((internalX * (defaultCellSize + 1) + 1) * PulpitScale) + 1, (int) ((internalY * (defaultCellSize + 1) + 1) * PulpitScale) + 1);
                 cells.ModifySize(dimensions.Width, dimensions.Height);
+                UpdateCells();
             }
         }
 
@@ -107,6 +117,52 @@
             }
         }
 
+        protected internal void UpdateCells()
+        {
+            Element GetCell(int x, int y)
+            {
+                foreach (var cell in cells)
+                {
+                    if (cell.GridLocation.X == x && cell.GridLocation.Y == y)
+                        return cell;
+                }
+                return null;
+            }
+
+            for (int y = 0; y < dimensions.Height; y++)
+            {
+                for (int x = 0; x < dimensions.Width; x++)
+                {
+                    if (x.IsBetween(1, dimensions.Width - 2) && y.IsBetween(1, dimensions.Height - 2))
+                    {
+                        var cell = GetCell(x, y) ?? new Element();
+                        if (cell is SideElement)
+                            cell = new Element();
+                        cell.GridLocation = new Point(x, y);
+                        cells[x, y] = cell;
+                    }
+                    else
+                    {
+                        var cell = GetCell(x, y) as SideElement ?? new SideElement();
+                        cell.Side = (x == 0)
+                            ? SideElement.SideLocation.Left
+                            : (x == dimensions.Width - 1)
+                                ? SideElement.SideLocation.Right
+                                : SideElement.SideLocation.None;
+
+                        cell.Side |= (y == 0)
+                            ? SideElement.SideLocation.Top
+                            : (y == dimensions.Height - 1)
+                                ? SideElement.SideLocation.Bottom
+                                : SideElement.SideLocation.None;
+
+                        cell.GridLocation = new Point(x, y);
+                        cells[x, y] = cell;
+                    }
+                }
+            }
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -116,15 +172,41 @@
             Bitmap bitmap = new Bitmap(PulpitSize.Width, PulpitSize.Height);
             Graphics g = Graphics.FromImage(bitmap);
 
-            using (SolidBrush b = new SolidBrush(Colors.Black.ToColor()))
+            using (SolidBrush brush = new SolidBrush(Colors.Black.ToColor()))
             {
-                g.FillRectangle(b, 0, 0, Width, Height);
+                g.FillRectangle(brush, 0, 0, PulpitSize.Width, PulpitSize.Height);
             }
 
-            foreach (var cell in cells)
+            g.ScaleTransform(PulpitScale, PulpitScale);
+
+            var origTransform = g.Transform;
+            for (int x = 0; x < dimensions.Width; x++)
             {
-                cell.UpdateBitmap(g);
+                for (int y = 0; y < dimensions.Height; y++)
+                {
+                    var cell = cells[x, y];
+                    g.TranslateTransform(cell.Location.X, cell.Location.Y);
+                    cell.DrawCell(g);
+                    g.Transform = origTransform;
+                }
             }
+            g.ResetTransform();
+
+            /*var transform = g.Transform;
+            for (int x = 0; x < dimensions.Width; x++)
+            {
+                for (int y = 0; y < dimensions.Height; y++)
+                {
+                    var cell = cells[x, y];
+                    cell.DrawCell(g);
+                    float toAddY = cell.GridLocation.Y == dimensions.Height - 2 ? defaultCellSize + 2 : defaultCellSize;
+                    g.TranslateTransform(0, toAddY);
+                    g.Transform = transform;
+                }
+                float toAddX = cells[x, 0].GridLocation.X == dimensions.Width - 2 ? defaultCellSize + 2 : defaultCellSize;
+                g.TranslateTransform(toAddX, 0);
+            }
+            g.ResetTransform();*/
 
             e.Graphics.DrawImageUnscaled(bitmap, 0, 0);
         }
@@ -138,13 +220,13 @@
 
         private void CalculateScale()
         {
-            var scaleX = Size.Width / (defaultCellSize * (dimensions.Width - 1) + (defaultCellSize + 1));
-            var scaleY = Size.Height / (defaultCellSize * (dimensions.Height - 1) + (defaultCellSize + 1));
+            float scaleX = Size.Width / (defaultCellSize * (dimensions.Width - 1) + (defaultCellSize + 1));
+            float scaleY = Size.Height / (defaultCellSize * (dimensions.Height - 1) + (defaultCellSize + 1));
 
-            var min = Math.Min(scaleX, scaleY);
+            float min = Math.Min(scaleX, scaleY);
 
-            var width = (int) (min + (dimensions.Width * defaultCellSize * min));
-            var height = (int) (min + (dimensions.Height * defaultCellSize * min));
+            float width = (int) (min + (dimensions.Width * defaultCellSize * min));
+            float height = (int) (min + (dimensions.Height * defaultCellSize * min));
 
             scaleX = width / (defaultCellSize * dimensions.Width + 1);
             scaleY = height / (defaultCellSize * dimensions.Height + 1);
@@ -196,34 +278,30 @@
         {
             foreach (var cell in cells)
             {
-                cell.Size = new Size((int) (defaultCellSize * PulpitScale), (int) (defaultCellSize * PulpitScale));
-                cell.USize = new Size((int) defaultCellSize, (int) defaultCellSize);
+                cell.Size = new Size((int) defaultCellSize, (int) defaultCellSize);
                 int cellX = cell.GridLocation.X * cell.Size.Width;
                 int cellY = cell.GridLocation.Y * cell.Size.Height;
-                cell.ElementScale = PulpitScale;
 
                 if (cell.GridLocation.X == dimensions.Width - 2)
                 {
-                    cell.Size = new Size((int) ((defaultCellSize + 1) * PulpitScale), cell.Size.Height);
-                    cell.USize = new Size((int) defaultCellSize + 1, cell.USize.Height);
+                    cell.Size = new Size((int) defaultCellSize + 1, cell.Size.Height);
                     cell.DrawRightBigger = true;
                 }
 
                 if (cell.GridLocation.Y == dimensions.Height - 2)
                 {
-                    cell.Size = new Size(cell.Size.Width, (int) ((defaultCellSize + 1) * PulpitScale));
-                    cell.USize = new Size(cell.USize.Width, (int) defaultCellSize + 1);
+                    cell.Size = new Size(cell.Size.Width, (int) defaultCellSize + 1);
                     cell.DrawBottomBigger = true;
                 }
 
                 if (cell.GridLocation.X == dimensions.Width - 1)
                 {
-                    cellX = (cell.GridLocation.X - 1) * cell.Size.Width + (int) ((defaultCellSize + 1) * PulpitScale);
+                    cellX = (cell.GridLocation.X - 1) * cell.Size.Width + (int) (defaultCellSize + 2);
                 }
 
                 if (cell.GridLocation.Y == dimensions.Height - 1)
                 {
-                    cellY = (cell.GridLocation.Y - 1) * cell.Size.Height + (int) ((defaultCellSize + 1) * PulpitScale);
+                    cellY = (cell.GridLocation.Y - 1) * cell.Size.Height + (int) (defaultCellSize + 2);
                 }
 
                 cell.Location = new Point(cellX, cellY);

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PodgórzynPanelSterowania.Properties {
+namespace キルン.Properties {
     using System;
     
     

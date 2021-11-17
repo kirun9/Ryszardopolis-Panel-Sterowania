@@ -1,4 +1,4 @@
-﻿namespace PodgórzynPanelSterowania.Controls
+﻿namespace RyszardopolisPanelSterowania.Controls
 {
     using System.Drawing;
 
@@ -11,7 +11,9 @@
         SidePrimary   = 0x303030,
         SideSecondary = 0x202020,
         SideTrinnary  = 0x000000,
-        SideFilling   = 0x999999
+        SideFilling   = 0x999999,
+        Red           = 0xFF0000,
+        Green         = 0x00FF00,
     }
 
     [System.Diagnostics.DebuggerStepThrough]

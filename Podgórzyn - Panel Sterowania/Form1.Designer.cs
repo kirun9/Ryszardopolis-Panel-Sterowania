@@ -1,4 +1,4 @@
-﻿namespace PodgórzynPanelSterowania
+﻿namespace RyszardopolisPanelSterowania
 {
     public partial class Form1
     {
@@ -33,7 +33,7 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.pulpit1 = new PodgórzynPanelSterowania.Controls.Pulpit();
+            this.pulpit1 = new RyszardopolisPanelSterowania.Controls.Pulpit();
             this.SuspendLayout();
             // 
             // checkBox1
@@ -66,13 +66,13 @@
             // 
             // pulpit1
             // 
-            this.pulpit1.Dimensions = new System.Drawing.Size(23, 16);
+            this.pulpit1.Dimensions = new System.Drawing.Size(5, 4);
             this.pulpit1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pulpit1.Location = new System.Drawing.Point(0, 0);
-            this.pulpit1.LockScale = true;
+            this.pulpit1.LockScale = false;
             this.pulpit1.Name = "pulpit1";
             this.pulpit1.Size = new System.Drawing.Size(1568, 902);
-            this.pulpit1.TabIndex = 2;
+            this.pulpit1.TabIndex = 4;
             this.pulpit1.Text = "pulpit1";
             // 
             // Form1
@@ -92,9 +92,9 @@
 
         #endregion
         private System.Windows.Forms.CheckBox checkBox1;
-        private Controls.Pulpit pulpit1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Timer timer1;
+        private Controls.Pulpit pulpit1;
     }
 }
 

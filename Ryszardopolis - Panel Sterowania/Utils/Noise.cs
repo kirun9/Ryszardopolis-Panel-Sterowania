@@ -4,11 +4,13 @@
     using System.Drawing;
     using Extensions;
 
+    using RyszardopolisPanelSterowania.Properties;
+
     internal class Noise
     {
         public static Bitmap NoiseFromImage()
         {
-            Bitmap orig = new Bitmap(".\\Texture.bmp");
+            Bitmap orig = Resources.Texture;
             Bitmap bmp = new Bitmap(orig.Width, orig.Height);
             for (int x = 0; x < orig.Width; x++)
             {
@@ -19,7 +21,6 @@
                     bmp.SetPixel(x, y, Color.FromArgb(256 - A, Color.Black));
                 }
             }
-            bmp.Save(".\\AlphaTexture.bmp");
             return bmp;
         }
 

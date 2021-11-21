@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31624.102
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Podgórzyn - Panel Sterowania", "Podgórzyn - Panel Sterowania\Podgórzyn - Panel Sterowania.csproj", "{3873101C-92D2-43C2-8FAA-D5022E1E2859}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ryszardopolis - Panel Sterowania", "Ryszardopolis - Panel Sterowania\Ryszardopolis - Panel Sterowania.csproj", "{3873101C-92D2-43C2-8FAA-D5022E1E2859}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

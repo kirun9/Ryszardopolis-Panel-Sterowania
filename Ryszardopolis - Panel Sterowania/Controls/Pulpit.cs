@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.IO.Ports;
+    using System.Text.RegularExpressions;
     using System.Windows.Forms;
 
     using RyszardopolisPanelSterowania.Cells;
@@ -14,16 +16,20 @@
 
         private Size dimensions;
         private CellHolder cells;
+        private DigitalData Data;
 
         private bool lockScale = false;
         private float pulpitScale;
+
         internal static float bitmapScale = 10;
 
         public Pulpit()
         {
             cells = new CellHolder();
+            Data = new DigitalData();
             DoubleBuffered = true;
             InitializeComponent();
+            SerialPort.Open();
         }
 
         public Size PulpitSize
@@ -327,6 +333,41 @@
 
                 cell.Location = new Point(cellX, cellY);
             }
+        }
+
+        private void SerialPort_DataReceived(Object sender, SerialDataReceivedEventArgs e)
+        {
+            SerialPort port = (SerialPort) sender;
+            string inData = port.ReadExisting();
+            ParseSerialData(inData);
+        }
+
+        internal void SendData(string dataName, bool value)
+        {
+            SerialPort.WriteLine($"{dataName} {value}");
+        }
+
+        private void ParseSerialData(string recivedData)
+        {
+            System.Diagnostics.Debug.WriteLine(recivedData);
+            string[] lines = recivedData.Split(new char[] { '\n' });
+            string errors = "";
+            foreach (var line in lines)
+            {
+                if (Regex.IsMatch(line, @"(?:[a-zA-Z0-9_]+ )(?:(?:HIGH)|(?:LOW))"))
+                {
+                    string[] parts = line.Split(new char[] { ' ' });
+                    Data[parts[0]] = parts[1] == "HIGH" ? true : false;
+                }
+                else
+                {
+                    errors += (errors == "") ? "" : "\n" + "Recived invalid data: " + line;
+                }
+            }
+            if (errors == "")
+                return;
+            errors += "\nContinuing without quiting";
+            MessageBox.Show(this, errors, "Data Error", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
         }
     }
 }

@@ -54,6 +54,8 @@
       <DependentUpon>Element.cs</DependentUpon>
     </Compile>
     <Compile Include="Cells\Interfaces\ITrack.cs" />
+    <Compile Include="Controls\DataChangedEventArgs.cs" />
+    <Compile Include="Controls\DigitalData.cs" />
     <Compile Include="StringLocation.cs" />
     <Compile Include="Cells\Track.cs" />
     <Compile Include="Utils\Noise.cs" />
@@ -78,6 +80,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\Pulpit.resx">
+      <DependentUpon>Pulpit.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

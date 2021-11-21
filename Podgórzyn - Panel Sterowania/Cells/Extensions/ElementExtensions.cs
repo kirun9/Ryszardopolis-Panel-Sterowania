@@ -1,7 +1,5 @@
-﻿namespace RyszardopolisPanelSterowania.Controls
+﻿namespace RyszardopolisPanelSterowania.Cells.Extensions
 {
-    using RyszardopolisPanelSterowania.Controls.Cells;
-
     [System.Diagnostics.DebuggerStepThrough]
     public static class ElementExtensions
     {

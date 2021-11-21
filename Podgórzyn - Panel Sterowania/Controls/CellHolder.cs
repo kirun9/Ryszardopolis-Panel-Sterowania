@@ -5,7 +5,8 @@
     using System.Drawing;
     using System.Linq;
 
-    using RyszardopolisPanelSterowania.Controls.Cells;
+    using RyszardopolisPanelSterowania.Cells;
+    using RyszardopolisPanelSterowania.Cells.Extensions;
 
     [System.Diagnostics.DebuggerStepThrough]
     public class CellHolder : IEnumerable<Element>

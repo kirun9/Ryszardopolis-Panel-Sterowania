@@ -54,5 +54,18 @@
         {
             return (int) Math.Floor(value);
         }
+
+        public static Color Blend(this Color color, Color other)
+        {
+            int r = color.R + other.R;
+            int g = color.G + other.G;
+            int b = color.B + other.B;
+            int a = color.A + other.A;
+            r /= 2;
+            g /= 2;
+            b /= 2;
+            a /= 2;
+            return Color.FromArgb(a, r, g, b);
+        }
     }
 }

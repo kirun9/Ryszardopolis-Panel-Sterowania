@@ -5,19 +5,19 @@
     using System.Drawing;
     using System.Windows.Forms;
 
-    using RyszardopolisPanelSterowania.Controls.Cells;
+    using RyszardopolisPanelSterowania.Cells;
     using RyszardopolisPanelSterowania.Extensions;
 
     public partial class Pulpit : Control
     {
-        private readonly float defaultCellSize = 38; // 9,5
+        private readonly float defaultCellSize = 38; // 9,5 * 4
 
         private Size dimensions;
         private CellHolder cells;
 
         private bool lockScale = false;
         private float pulpitScale;
-        private float bitmapScale = 10;
+        internal static float bitmapScale = 10;
 
         public Pulpit()
         {
@@ -34,11 +34,27 @@
             }
         }
 
+        public Size PulpitCellSize
+        {
+            get
+            {
+                return new Size((int) (PulpitScale * defaultCellSize), (int) (PulpitScale * defaultCellSize));
+            }
+        }
+
         public Size BitmapSize
         {
             get
             {
                 return new Size((int) (bitmapScale + (dimensions.Width * defaultCellSize * bitmapScale)), (int) (bitmapScale + (dimensions.Height * defaultCellSize * bitmapScale)));
+            }
+        }
+
+        public Size BitmapCellSize
+        {
+            get
+            {
+                return new Size((int) (bitmapScale * defaultCellSize), (int) (bitmapScale * defaultCellSize));
             }
         }
 
@@ -111,10 +127,30 @@
                                 : SideElement.SideLocation.None;
 
                         cell.GridLocation = new Point(x, y);
+                        cell.Text = cell.Side == SideElement.SideLocation.Top || cell.Side == SideElement.SideLocation.Bottom ? cell.GridLocation.X.ToString("D2") : (cell.Side == SideElement.SideLocation.Left || cell.Side == SideElement.SideLocation.Right ? (dimensions.Height - cell.GridLocation.Y - 1).ToString("D2") : "");
+
                         cells[x, y] = cell;
                     }
                 }
             }
+        }
+
+        public void UpdateCell(Element cell)
+        {
+            if (cell.GridLocation.X.IsBetween(1, dimensions.Width - 2) && cell.GridLocation.Y.IsBetween(1, dimensions.Height - 2))
+            {
+                var ocell = cells[cell.GridLocation.X, cell.GridLocation.Y];
+                cell.Location = ocell.Location;
+                cell.Size = ocell.Size;
+                cell.DrawBottomBigger = ocell.DrawBottomBigger;
+                cell.DrawRightBigger = ocell.DrawRightBigger;
+                cells[cell.GridLocation.X, cell.GridLocation.Y] = cell;
+            }
+        }
+
+        public Element GetCell(int x, int y)
+        {
+            return x.IsBetween(1, dimensions.Width - 2) && y.IsBetween(1, dimensions.Height - 2) ? cells[x, y] : null;
         }
 
         protected internal void UpdateCells()
@@ -157,6 +193,7 @@
                                 : SideElement.SideLocation.None;
 
                         cell.GridLocation = new Point(x, y);
+                        cell.Text = cell.Side == SideElement.SideLocation.Top || cell.Side == SideElement.SideLocation.Bottom ? cell.GridLocation.X.ToString("D2") : (cell.Side == SideElement.SideLocation.Left || cell.Side == SideElement.SideLocation.Right ? ((dimensions.Height) - cell.GridLocation.Y - 1).ToString("D2") : "");
                         cells[x, y] = cell;
                     }
                 }
@@ -187,6 +224,7 @@
                 cell.DrawCell(g);
                 g.Transform = origTransform;
             }
+
             g.ResetTransform();
 
             Bitmap scaled = new Bitmap(bitmap, PulpitSize.Width, PulpitSize.Height);

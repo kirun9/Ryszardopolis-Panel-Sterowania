@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3873101C-92D2-43C2-8FAA-D5022E1E2859}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>PodgórzynPanelSterowania</RootNamespace>
-    <AssemblyName>Podgórzyn - Panel Sterowania</AssemblyName>
+    <RootNamespace>RyszardopolisPanelSterowania</RootNamespace>
+    <AssemblyName>Ryszardopolis - Panel Sterowania</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -49,21 +49,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\CellHolder.cs" />
-    <Compile Include="Controls\Cells\Element.cs" />
-    <Compile Include="Controls\Cells\Element.CustomGraphics.cs">
+    <Compile Include="Cells\Element.cs" />
+    <Compile Include="Cells\Element.CustomGraphics.cs">
       <DependentUpon>Element.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Cells\SideElement.cs" />
+    <Compile Include="Cells\Interfaces\ITrack.cs" />
+    <Compile Include="StringLocation.cs" />
+    <Compile Include="Cells\Track.cs" />
+    <Compile Include="Utils\Noise.cs" />
+    <Compile Include="Cells\SideElement.cs" />
     <Compile Include="Controls\Colors.cs" />
-    <Compile Include="Controls\ElementExtensions.cs" />
-    <Compile Include="Controls\Extensions.cs" />
-    <Compile Include="Controls\Mathf.cs" />
+    <Compile Include="Cells\Extensions\ElementExtensions.cs" />
+    <Compile Include="Extensons\Extensions.cs" />
+    <Compile Include="Mathf.cs" />
+    <Compile Include="Utils\PerlinNoise.cs" />
     <Compile Include="Controls\Pulpit.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\Pulpit.Designer.cs">
       <DependentUpon>Pulpit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cells\TrackStates.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

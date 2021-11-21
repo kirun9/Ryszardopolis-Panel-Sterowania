@@ -5,6 +5,14 @@
     [System.Diagnostics.DebuggerStepThrough]
     public static class Mathf
     {
+        public static float Map(this float value, float oldMin, float oldMax, float newMin, float newMax)
+        {
+            float oldRange = oldMax - oldMin;
+            float newRange = newMax - newMin;
+            float newValue = (((value - oldMin) * newRange) / oldRange) + newMin;
+            return newValue;
+        }
+
         public static int ClampMin(this int value) => value.ClampMin(0);
 
         public static int ClampMin(this int value, int min)

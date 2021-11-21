@@ -1,13 +1,17 @@
-﻿namespace RyszardopolisPanelSterowania.Controls.Cells
+﻿namespace RyszardopolisPanelSterowania.Cells
 {
     using System;
     using System.Drawing;
+
+    using RyszardopolisPanelSterowania.Controls;
 
     public class SideElement : Element
     {
         private SideLocation side;
 
         public override Font Font => new Font(DefaultFont.FontFamily, 6, DefaultFont.Style, DefaultFont.Unit);
+
+        public string Text { get; set; }
 
         [Flags]
         public enum SideLocation
@@ -46,7 +50,7 @@
 
                     DrawLineRect(g, Colors.SideFilling, 0, 0, Size.Width, 0);
 
-                    DrawString(g, GridLocation.X.ToString("D2"), Font, Colors.Black, ContentAlignment.BottomCenter);
+                    DrawString(g, Text, Font, Colors.Black, ContentAlignment.BottomCenter);
 
                     break;
                 }
@@ -63,7 +67,7 @@
 
                     DrawLineRect(g, Colors.SideFilling, 0, 38, Size.Width, 0);
 
-                    DrawString(g, GridLocation.X.ToString("D2"), Font, Colors.Black, ContentAlignment.TopCenter);
+                    DrawString(g, Text, Font, Colors.Black, ContentAlignment.TopCenter);
 
                     break;
                 }
@@ -80,7 +84,7 @@
 
                     DrawLineRect(g, Colors.SideFilling, 0, 0, 0, Size.Height);
 
-                    DrawString(g, GridLocation.Y.ToString("D2"), Font, Colors.Black, ContentAlignment.MiddleRight);
+                    DrawString(g, Text, Font, Colors.Black, ContentAlignment.MiddleRight);
 
                     break;
                 }
@@ -97,7 +101,7 @@
 
                     DrawLineRect(g, Colors.SideFilling, 38, 0, 0, Size.Height);
 
-                    DrawString(g, GridLocation.Y.ToString("D2"), Font, Colors.Black, ContentAlignment.MiddleLeft);
+                    DrawString(g, Text, Font, Colors.Black, ContentAlignment.MiddleLeft);
                     break;
                 }
 
@@ -109,11 +113,8 @@
                     // Diagonal Line
                     DrawLine(g, Colors.SideSecondary, 3, 3, Size.Width - 1, Size.Height - 1);
 
-                    using Pen pen = new Pen(Colors.SideSecondary.ToColor(), 1);
-                    pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Square;
-                    g.DrawArc(pen, 2.5f, 2.5f, 2.5f, 2.5f, -180, 90);
-                    pen.Color = Colors.SideTrinnary.ToColor();
-                    g.DrawArc(pen, 1.5f, 1.5f, 5, 5, -180, 90);
+                    DrawArc(g, Colors.SideSecondary, 2.5f, 2.5f, 2.5f, 2.5f, -180, 90);
+                    DrawArc(g, Colors.SideTrinnary, 1.5f, 1.5f, 5, 5, -180, 90);
 
                     DrawLine(g, Colors.SideTrinnary, 4, 1, Size.Width, 1);
                     DrawLine(g, Colors.SideTrinnary, 1, 4, 1, Size.Width); // Czarne linie
@@ -137,11 +138,8 @@
                     // Diagonal Line
                     DrawLine(g, Colors.SideSecondary, Size.Width - 3, 3, 1, Size.Height - 1);
 
-                    using Pen pen = new Pen(Colors.SideSecondary.ToColor(), 1);
-                    pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Square;
-                    g.DrawArc(pen, 33f, 2.5f, 2.5f, 2.5f, -90, 90);
-                    pen.Color = Colors.SideTrinnary.ToColor();
-                    g.DrawArc(pen, 31.5f, 1.5f, 5, 5, -90, 90);
+                    DrawArc(g, Colors.SideSecondary, 33f, 2.5f, 2.5f, 2.5f, -90, 90);
+                    DrawArc(g, Colors.SideTrinnary, 31.5f, 1.5f, 5, 5, -90, 90);
 
                     DrawLine(g, Colors.SideTrinnary, 0, 1, Size.Width - 4, 1);
                     DrawLine(g, Colors.SideTrinnary, Size.Width - 1, 4, Size.Width - 1, Size.Height);
@@ -165,11 +163,8 @@
                     // Diagonal Line
                     DrawLine(g, Colors.SideSecondary, Size.Width - 1, 1, 3, Size.Height - 3);
 
-                    using Pen pen = new Pen(Colors.SideSecondary.ToColor(), 1);
-                    pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Square;
-                    g.DrawArc(pen, 2.5f, 33, 2.5f, 2.5f, -270, 90);
-                    pen.Color = Colors.SideTrinnary.ToColor();
-                    g.DrawArc(pen, 1.5f, 31.5f, 5, 5, -270, 90);
+                    DrawArc(g, Colors.SideSecondary, 2.5f, 33, 2.5f, 2.5f, -270, 90);
+                    DrawArc(g, Colors.SideTrinnary, 1.5f, 31.5f, 5, 5, -270, 90);
 
                     DrawLine(g, Colors.SideTrinnary, 4, Size.Height - 1, Size.Width, Size.Height - 1);
                     DrawLine(g, Colors.SideTrinnary, 1, 0, 1, Size.Width - 4); // Czarne linie
@@ -193,11 +188,8 @@
                     // Diagonal Line
                     DrawLine(g, Colors.SideSecondary, 1, 1, Size.Width - 3, Size.Height - 3);
 
-                    using Pen pen = new Pen(Colors.SideSecondary.ToColor(), 1);
-                    pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Square;
-                    g.DrawArc(pen, 33f, 33f, 2.5f, 2.5f, 0, 90);
-                    pen.Color = Colors.SideTrinnary.ToColor();
-                    g.DrawArc(pen, 31.5f, 31.5f, 5, 5, 0, 90);
+                    DrawArc(g, Colors.SideSecondary, 33f, 33f, 2.5f, 2.5f, 0, 90);
+                    DrawArc(g, Colors.SideTrinnary, 31.5f, 31.5f, 5, 5, 0, 90);
 
                     DrawLine(g, Colors.SideTrinnary, 0, Size.Height - 1, Size.Width - 4, Size.Height - 1);
                     DrawLine(g, Colors.SideTrinnary, Size.Width - 1, 0, Size.Width - 1, Size.Height - 4);

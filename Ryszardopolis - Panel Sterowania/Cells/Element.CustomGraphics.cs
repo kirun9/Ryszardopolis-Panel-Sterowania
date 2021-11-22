@@ -3,6 +3,8 @@
 using System;
     using System.Diagnostics;
     using System.Drawing;
+    using System.Drawing.Drawing2D;
+using System.Reflection;
 
     using RyszardopolisPanelSterowania.Controls;
 
@@ -110,6 +112,42 @@ using System;
             if (useTexture)
             {
                 g.FillRectangle(TextureBrush, x, y, width, height);
+            }
+        }
+        #endregion
+
+        #region FillPath
+
+        internal void FillPath(Graphics g, Colors color, GraphicsPath path, bool useTexture = true) => FillPath(g, color.ToColor(), path, useTexture);
+
+        internal void FillPath(Graphics g, Color color, GraphicsPath path, bool useTexture = true)
+        {
+            using Brush brush = new SolidBrush(color);
+            g.FillPath(brush, path);
+            if (useTexture)
+                g.FillPath(TextureBrush, path);
+        }
+
+        #endregion
+
+        #region DrawPath
+
+        internal void DrawPath(Graphics g, Colors color, GraphicsPath path, bool useTexture = true) => DrawPath(g, color.ToColor(), path, useTexture);
+
+        internal void DrawPath(Graphics g, Color color, GraphicsPath path, bool useTexture = true)
+        {
+            using Pen pen = new Pen(color);
+            pen.StartCap = pen.EndCap = LineCap.Square;
+            DrawPath(g, pen, path, useTexture);
+        }
+
+        internal void DrawPath(Graphics g, Pen pen, GraphicsPath path, bool useTexture = true)
+        {
+            g.DrawPath(pen, path);
+            if (useTexture)
+            {
+                pen.Brush = textureBrush;
+                g.DrawPath(pen, path);
             }
         }
         #endregion
@@ -257,6 +295,9 @@ using System;
             }
         }
         #endregion
+
+
+
 
         [DebuggerStepThrough]
         public PointF TransformPoint(PointF point, PointF center, float angle, bool sx, bool sy)

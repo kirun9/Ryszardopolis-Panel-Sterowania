@@ -32,10 +32,6 @@
 
         protected override void DrawBorder(Graphics g)
         {
-        }
-
-        protected override void DrawContent(Graphics g)
-        {
             switch (Side)
             {
                 case SideLocation.Top:
@@ -209,6 +205,10 @@
                 default:
                     break;
             }
+        }
+
+        protected override void DrawContent(Graphics g)
+        {
         }
     }
 }

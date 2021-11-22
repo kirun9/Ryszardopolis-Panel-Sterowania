@@ -8,6 +8,7 @@
     using System.Windows.Forms;
 
     using RyszardopolisPanelSterowania.Cells;
+    using RyszardopolisPanelSterowania.Cells.Interfaces;
     using RyszardopolisPanelSterowania.Extensions;
 
     public partial class Pulpit : Control
@@ -141,16 +142,49 @@
             }
         }
 
+        private void RegisterEvents(Element cell)
+        {
+            if (cell is ITrack track)
+            {
+                var key = track.TrackId;
+                Data.RegisterElement(key, track.OccupyTrack);
+            }
+        }
+
+        private void UnregisterEvents(Element cell)
+        {
+            if (cell is ITrack track)
+            {
+                var key = track.TrackId;
+                Data.UnregisterEvent(key, track.OccupyTrack);
+            }
+        }
+
         public void UpdateCell(Element cell)
         {
             if (cell.GridLocation.X.IsBetween(1, dimensions.Width - 2) && cell.GridLocation.Y.IsBetween(1, dimensions.Height - 2))
             {
                 var ocell = cells[cell.GridLocation.X, cell.GridLocation.Y];
+                UnregisterEvents(ocell);
                 cell.Location = ocell.Location;
                 cell.Size = ocell.Size;
                 cell.DrawBottomBigger = ocell.DrawBottomBigger;
                 cell.DrawRightBigger = ocell.DrawRightBigger;
                 cells[cell.GridLocation.X, cell.GridLocation.Y] = cell;
+                RegisterEvents(cell);
+                Invalidate();
+            }
+        }
+
+        public void UpdateCell(object sender, EventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new EventHandler(UpdateCell), sender, e);
+            }
+            else
+            {
+                Invalidate();
             }
         }
 
@@ -357,7 +391,7 @@
                 if (Regex.IsMatch(line, @"(?:[a-zA-Z0-9_]+ )(?:(?:HIGH)|(?:LOW))"))
                 {
                     string[] parts = line.Split(new char[] { ' ' });
-                    Data[parts[0]] = parts[1] == "HIGH" ? true : false;
+                    Data[parts[0]] = parts[1] == "HIGH";
                 }
                 else
                 {

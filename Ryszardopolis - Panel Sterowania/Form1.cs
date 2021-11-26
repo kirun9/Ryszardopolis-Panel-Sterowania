@@ -1,37 +1,58 @@
 ﻿namespace RyszardopolisPanelSterowania
 {
+using System;
     using System.Drawing;
     using System.Windows.Forms;
 
     using RyszardopolisPanelSterowania.Cells;
 
-    public partial class Form1 : Form
-    {
-        private Track t1 = new Track();
-        private Track t2 = new Track();
-        private Track t3 = new Track();
-        private Track t4 = new Track();
+    using Momiji.Bot.V3.Serialization.XmlSerializer;
+    using RyszardopolisPanelSterowania.Serializer;
 
-        public Form1()
+    public partial class MainForm : Form
+    {
+        private XmlObject<SerializedDataRoot> serializedData = new XmlObject<SerializedDataRoot>() { Version = new XmlSerializerVersion("1.0.0.0"), Data = new SerializedDataRoot() };
+        private static XmlSerializerConfig<SerializedDataRoot> serializerConfig = new XmlSerializerConfig<SerializedDataRoot>()
+        {
+            Directory = "data",
+            FileName = "pulpitData.xml"
+        };
+
+        [STAThread]
+        public static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MainForm());
+        }
+
+        public MainForm()
         {
             InitializeComponent();
-            pulpit1.PopulateWithEmptyCells();
-            t1.TrackId = "it_115";
-            t2.TrackId = "it_115";
-            t3.TrackId = "it_116";
-            t4.TrackId = "it_116";
-            t1.GridLocation = new Point(1, 1);
-            t2.GridLocation = new Point(2, 1);
-            t3.GridLocation = new Point(3, 1);
-            t4.GridLocation = new Point(3, 2);
+            serializedData = XmlSerializer.Load(serializerConfig);
 
-            t3.IsDiagonal = true;
-            t4.ElementRotation = RotateFlipType.Rotate90FlipNone;
+            pulpit1.Dimensions = serializedData.Data.Size;
 
-            pulpit1.UpdateCell(t1);
-            pulpit1.UpdateCell(t2);
-            pulpit1.UpdateCell(t3);
-            pulpit1.UpdateCell(t4);
+            foreach (var cell in serializedData.Data.Elements)
+            {
+                pulpit1.UpdateCell(cell);
+            }
+
+            /*Junction j = new Junction();
+            j.MainTrackId = "it_115";
+            j.SecondTrackId = "it_116";
+            j.JunctionId = "j_1";
+
+            j.GridLocation = new Point(3, 1);
+
+            pulpit1.UpdateCell(j);
+            */
+
+            pulpit1.ParseSerialData("j_1_S HIGH");
+            serializedData.Data.Elements.Clear();
+            serializedData.Data.Elements.AddRange(pulpit1.Cells);
+
+            XmlSerializer.Save(serializerConfig, serializedData);
             Invalidate();
         }
 
@@ -40,11 +61,11 @@
             pulpit1.LockScale = checkBox1.Checked;
         }
 
+
+        private bool temp = false;
         private void Click_button1(object sender, System.EventArgs e)
         {
-            t4.ElementRotation += 1;
-            if ((int) t4.ElementRotation > 7)
-                t4.ElementRotation = 0;
+            pulpit1.ParseSerialData("it_116 " + ((temp = !temp) ? "HIGH" : "LOW"));
         }
 
         private void timer1_Tick(object sender, System.EventArgs e)

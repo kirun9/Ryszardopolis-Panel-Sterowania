@@ -6,11 +6,12 @@
     using RyszardopolisPanelSterowania.Cells.Interfaces;
     using System.Drawing.Drawing2D;
 
-    internal class Track : Element, ITrack
+    //[System.Xml.Serialization.XmlInclude(typeof(ITrack))]
+    public class Track : Element, ITrack
     {
-        public System.String TrackId { get; set; }
-        public TrackStates TrackState { get; set; }
-        public System.Boolean TrackHasGap { get; }
+        public System.String TrackId { get; set; } = "EmptyElement";
+        public TrackStates TrackState { get; set; } = TrackStates.None;
+        public System.Boolean TrackHasGap { get; set; } = true;
         public bool IsDiagonal { get; set; } = false;
 
         private readonly Color Border = 0x919191.ToColor();
@@ -59,8 +60,8 @@
                 FillRectangle(g, Background, 1, 16, Size.Width - 1, 7);
                 DrawLine(g, Border, 1, 16, Size.Width, 16);
                 DrawLine(g, Border, 1, 23, Size.Width, 23);
-
-                FillRectangle(g, gapColor, 5, 18, Size.Width - 10, 3, false);
+                if (TrackHasGap)
+                    FillRectangle(g, gapColor, 5, 18, Size.Width - 10, 3, false);
 
                 using Pen pen = new Pen(Border, 1);
                 pen.StartCap = LineCap.Square;
@@ -69,9 +70,12 @@
 
                 DrawArc(g, pen, 1.5f, 18, 3, 3, 0, 360, false);
                 DrawArc(g, pen, Size.Width - 4, 18, 3, 3, 0, 360, false);
-                if (TrackState != TrackStates.None)
+                if (TrackHasGap)
                 {
-                    DrawImage(g, "GapBigAlpha.bmp", 5, 18, Size.Width - 10, 3);
+                    if (TrackState != TrackStates.None)
+                    {
+                        DrawImage(g, "GapBigAlpha.bmp", 5, 18, Size.Width - 10, 3);
+                    }
                 }
             }
             else
@@ -91,7 +95,8 @@
                 path.AddLine(15, Height - 3, 5, 25);
                 path.AddLine(5, 25, 5, 22);
 
-                FillPath(g, gapColor, path);
+                if (TrackHasGap)
+                    FillPath(g, gapColor, path);
 
                 using Pen pen = new Pen(Border, 1);
                 pen.StartCap = LineCap.Square;

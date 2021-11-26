@@ -30,7 +30,7 @@
             Data = new DigitalData();
             DoubleBuffered = true;
             InitializeComponent();
-            SerialPort.Open();
+            //SerialPort.Open();
         }
 
         public Size PulpitSize
@@ -106,6 +106,8 @@
             }
         }
 
+        public Element[] Cells => cells;
+
         protected internal void PopulateWithEmptyCells()
         {
             for (int y = 0; y < dimensions.Height; y++)
@@ -146,8 +148,15 @@
         {
             if (cell is ITrack track)
             {
-                var key = track.TrackId;
-                Data.RegisterElement(key, track.OccupyTrack);
+                Data.RegisterElement(track.TrackId, track.OccupyTrack);
+            }
+            if (cell is IJunction junction)
+            {
+                Data.RegisterElement(junction.MainTrackId, junction.OcupyTrack);
+                Data.RegisterElement(junction.SecondTrackId, junction.OcupyTrack);
+
+                Data.RegisterElement(junction.JunctionId + "_M", junction.SwitchTrack);
+                Data.RegisterElement(junction.JunctionId + "_S", junction.SwitchTrack);
             }
         }
 
@@ -381,7 +390,7 @@
             SerialPort.WriteLine($"{dataName} {value}");
         }
 
-        private void ParseSerialData(string recivedData)
+        internal void ParseSerialData(string recivedData)
         {
             System.Diagnostics.Debug.WriteLine(recivedData);
             string[] lines = recivedData.Split(new char[] { '\n' });

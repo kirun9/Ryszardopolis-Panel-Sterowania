@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal class DataChangedEventArgs : EventArgs
+    public class DataChangedEventArgs : EventArgs
     {
         public string DataName { get; private set; }
         public bool Value { get; private set; }

@@ -35,7 +35,6 @@
             // 
             // SerialPort
             // 
-            this.SerialPort.PortName = "COM4";
             this.SerialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPort_DataReceived);
             this.ResumeLayout(false);
 

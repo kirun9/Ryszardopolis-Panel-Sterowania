@@ -138,6 +138,7 @@ using System.Reflection;
         {
             using Pen pen = new Pen(color);
             pen.StartCap = pen.EndCap = LineCap.Square;
+            pen.Alignment = PenAlignment.Inset;
             DrawPath(g, pen, path, useTexture);
         }
 
@@ -273,17 +274,17 @@ using System.Reflection;
 
             PointF point = stringLocation.Alignment switch
             {
-                ContentAlignment.TopCenter    => new PointF((Size.Width / 2) - (stringSize.Width / 2) + stringLocation.DeltaX         , (Size.Height / 4) * 1 - (stringSize.Height / 2) + stringLocation.DeltaY),
-                ContentAlignment.MiddleCenter => new PointF((Size.Width / 2) - (stringSize.Width / 2) + stringLocation.DeltaX         , (Size.Height / 4) * 2 - (stringSize.Height / 2) + stringLocation.DeltaY),
-                ContentAlignment.BottomCenter => new PointF((Size.Width / 2) - (stringSize.Width / 2) + stringLocation.DeltaX         , (Size.Height / 4) * 3 - (stringSize.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.TopCenter    => new PointF((Size.Width / 2) - (stringSize.Width / 2) + stringLocation.DeltaX             , (Size.Height / 4) * 1 - (stringSize.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.MiddleCenter => new PointF((Size.Width / 2) - (stringSize.Width / 2) + stringLocation.DeltaX             , (Size.Height / 4) * 2 - (stringSize.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.BottomCenter => new PointF((Size.Width / 2) - (stringSize.Width / 2) + stringLocation.DeltaX             , (Size.Height / 4) * 3 - (stringSize.Height / 2) + stringLocation.DeltaY),
 
-                ContentAlignment.TopLeft      => new PointF(stringSize.Width + stringSize.Height / 2 + stringLocation.DeltaX          , (Size.Height / 4) * 1 - (stringSize.Height / 2) + stringLocation.DeltaY),
-                ContentAlignment.MiddleLeft   => new PointF(stringSize.Width + stringSize.Height / 2 + stringLocation.DeltaX          , (Size.Height / 4) * 2 - (stringSize.Height / 2) + stringLocation.DeltaY),
-                ContentAlignment.BottomLeft   => new PointF(stringSize.Width + stringSize.Height / 2 + stringLocation.DeltaX          , (Size.Height / 4) * 3 - (stringSize.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.TopLeft      => new PointF(stringSize.Height / 2 + stringLocation.DeltaX                                 , (Size.Height / 4) * 1 - (stringSize.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.MiddleLeft   => new PointF(stringSize.Height / 2 + stringLocation.DeltaX                                 , (Size.Height / 4) * 2 - (stringSize.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.BottomLeft   => new PointF(stringSize.Height / 2 + stringLocation.DeltaX                                 , (Size.Height / 4) * 3 - (stringSize.Height / 2) + stringLocation.DeltaY),
 
-                ContentAlignment.TopRight     => new PointF(Size.Width - stringSize.Width - stringSize.Height + stringLocation.DeltaX , (Size.Height / 4) * 1 - (stringSize.Height / 2) + stringLocation.DeltaY),
-                ContentAlignment.MiddleRight  => new PointF(Size.Width - stringSize.Width - stringSize.Height + stringLocation.DeltaX , (Size.Height / 4) * 2 - (stringSize.Height / 2) + stringLocation.DeltaY),
-                ContentAlignment.BottomRight  => new PointF(Size.Width - stringSize.Width - stringSize.Height + stringLocation.DeltaX , (Size.Height / 4) * 3 - (stringSize.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.TopRight     => new PointF(Size.Width - stringSize.Width - stringSize.Height / 2 + stringLocation.DeltaX , (Size.Height / 4) * 1 - (stringSize.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.MiddleRight  => new PointF(Size.Width - stringSize.Width - stringSize.Height / 2 + stringLocation.DeltaX , (Size.Height / 4) * 2 - (stringSize.Height / 2) + stringLocation.DeltaY),
+                ContentAlignment.BottomRight  => new PointF(Size.Width - stringSize.Width - stringSize.Height / 2 + stringLocation.DeltaX , (Size.Height / 4) * 3 - (stringSize.Height / 2) + stringLocation.DeltaY),
 
                 _ => new PointF(stringLocation.X + stringLocation.DeltaX, stringLocation.Y + stringLocation.DeltaY),
             };
@@ -295,9 +296,6 @@ using System.Reflection;
             }
         }
         #endregion
-
-
-
 
         [DebuggerStepThrough]
         public PointF TransformPoint(PointF point, PointF center, float angle, bool sx, bool sy)

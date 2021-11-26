@@ -1,6 +1,6 @@
 ﻿namespace RyszardopolisPanelSterowania.Cells
 {
-    internal enum TrackStates
+    public enum TrackStates
     {
         None,
         Locked,

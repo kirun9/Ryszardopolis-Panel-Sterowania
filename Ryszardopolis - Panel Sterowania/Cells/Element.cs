@@ -3,10 +3,15 @@
     using System;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using System.Xml.Serialization;
 
+    using RyszardopolisPanelSterowania.Cells.Interfaces;
     using RyszardopolisPanelSterowania.Controls;
     using RyszardopolisPanelSterowania.Utils;
 
+    [XmlInclude(typeof(Track))]
+    [XmlInclude(typeof(SideElement))]
+    [XmlInclude(typeof(Junction))]
     public partial class Element
     {
         public event EventHandler ElementUpdated;
@@ -24,6 +29,11 @@
         internal readonly Color RedGap = 0xFC4E44.ToColor();
 
         private static Brush textureBrush;
+
+        public Element()
+        {
+        }
+
         internal static Brush TextureBrush
         {
             get
@@ -35,6 +45,7 @@
             }
         }
 
+        [XmlElement("Location")]
         public Point GridLocation
         {
             get
@@ -48,6 +59,7 @@
             }
         }
 
+        [XmlIgnore]
         public Size Size
         {
             get
@@ -61,10 +73,13 @@
             }
         }
 
+        [XmlIgnore]
         public bool DrawBottomBigger { get; set; }
 
+        [XmlIgnore]
         public bool DrawRightBigger { get; set; }
 
+        [XmlIgnore]
         public Point Location
         {
             get
@@ -78,6 +93,7 @@
             }
         }
 
+        [XmlIgnore]
         public virtual Font Font
         {
             get
@@ -96,6 +112,7 @@
         public int Width => Size.Width;
         public int Height => Size.Height;
 
+        [XmlAttribute("Rotation")]
         public RotateFlipType ElementRotation
         {
             get

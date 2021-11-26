@@ -35,9 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>RyszardopolisPanelSterowania.MainForm</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Momiji V5 Serialization">
+      <HintPath>E:\source\MyLibs\Momiji V5 Serialization.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,6 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cells\Interfaces\IJunction.cs" />
+    <Compile Include="Cells\Junction.cs" />
+    <Compile Include="Cells\misc\JunctionStates.cs" />
     <Compile Include="Controls\CellHolder.cs" />
     <Compile Include="Cells\Element.cs" />
     <Compile Include="Cells\Element.CustomGraphics.cs">
@@ -59,6 +65,7 @@
     <Compile Include="Cells\Interfaces\ITrack.cs" />
     <Compile Include="Controls\DataChangedEventArgs.cs" />
     <Compile Include="Controls\DigitalData.cs" />
+    <Compile Include="Serializer\Element.cs" />
     <Compile Include="StringLocation.cs" />
     <Compile Include="Cells\Track.cs" />
     <Compile Include="Utils\Noise.cs" />
@@ -74,7 +81,7 @@
     <Compile Include="Controls\Pulpit.Designer.cs">
       <DependentUpon>Pulpit.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cells\TrackStates.cs" />
+    <Compile Include="Cells\misc\TrackStates.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

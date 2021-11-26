@@ -7,7 +7,7 @@ using static RyszardopolisPanelSterowania.Controls.DigitalData;
 
     internal struct DigitalData : IEnumerable<Dictionary<string, (bool value, DataChangedHandler eventHandler)>.Enumerator>
     {
-        private Dictionary<string, (bool value, DataChangedHandler eventHandler)> data;
+        private static Dictionary<string, (bool value, DataChangedHandler eventHandler)> data;
 
         public delegate void DataChangedHandler(DataChangedEventArgs args);
         public int Count => data.Count;
@@ -39,6 +39,16 @@ using static RyszardopolisPanelSterowania.Controls.DigitalData;
                     data[key].eventHandler?.Invoke(new DataChangedEventArgs(key, value));
                 }
             }
+        }
+
+        public static bool GetData(string key)
+        {
+            if (!data.ContainsKey(key))
+            {
+                data.Add(key, (false, null));
+                data[key].eventHandler?.Invoke(new DataChangedEventArgs(key, data[key].value));
+            }
+            return data[key].value;
         }
 
         public void RegisterElement(string key, DataChangedHandler method)

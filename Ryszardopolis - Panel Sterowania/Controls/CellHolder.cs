@@ -58,5 +58,10 @@
         {
             return Cells.GetEnumerator();
         }
+
+        public static implicit operator Element[](CellHolder holder)
+        {
+            return holder.Cells;
+        }
     }
 }

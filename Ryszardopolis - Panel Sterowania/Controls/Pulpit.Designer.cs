@@ -29,9 +29,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.components = new System.ComponentModel.Container();
+            this.SerialPort = new System.IO.Ports.SerialPort(this.components);
+            this.SuspendLayout();
+            // 
+            // SerialPort
+            // 
+            this.SerialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPort_DataReceived);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.IO.Ports.SerialPort SerialPort;
     }
 }

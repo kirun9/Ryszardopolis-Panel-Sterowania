@@ -3,27 +3,35 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.IO.Ports;
+    using System.Text.RegularExpressions;
     using System.Windows.Forms;
 
     using RyszardopolisPanelSterowania.Cells;
+    using RyszardopolisPanelSterowania.Cells.Interfaces;
     using RyszardopolisPanelSterowania.Extensions;
 
+    
     public partial class Pulpit : Control
     {
         private readonly float defaultCellSize = 38; // 9,5 * 4
 
         private Size dimensions;
         private CellHolder cells;
+        private DigitalData Data;
 
         private bool lockScale = false;
         private float pulpitScale;
+
         internal static float bitmapScale = 10;
 
         public Pulpit()
         {
             cells = new CellHolder();
+            Data = new DigitalData();
             DoubleBuffered = true;
             InitializeComponent();
+            //SerialPort.Open();
         }
 
         public Size PulpitSize
@@ -99,6 +107,8 @@
             }
         }
 
+        public Element[] Cells => cells;
+
         protected internal void PopulateWithEmptyCells()
         {
             for (int y = 0; y < dimensions.Height; y++)
@@ -135,16 +145,56 @@
             }
         }
 
+        private void RegisterEvents(Element cell)
+        {
+            if (cell is ITrack track)
+            {
+                Data.RegisterElement(track.TrackId, track.OccupyTrack);
+            }
+            if (cell is IJunction junction)
+            {
+                Data.RegisterElement(junction.MainTrackId, junction.OcupyTrack);
+                Data.RegisterElement(junction.SecondTrackId, junction.OcupyTrack);
+
+                Data.RegisterElement(junction.JunctionId + "_M", junction.SwitchTrack);
+                Data.RegisterElement(junction.JunctionId + "_S", junction.SwitchTrack);
+            }
+        }
+
+        private void UnregisterEvents(Element cell)
+        {
+            if (cell is ITrack track)
+            {
+                var key = track.TrackId;
+                Data.UnregisterEvent(key, track.OccupyTrack);
+            }
+        }
+
         public void UpdateCell(Element cell)
         {
             if (cell.GridLocation.X.IsBetween(1, dimensions.Width - 2) && cell.GridLocation.Y.IsBetween(1, dimensions.Height - 2))
             {
                 var ocell = cells[cell.GridLocation.X, cell.GridLocation.Y];
+                UnregisterEvents(ocell);
                 cell.Location = ocell.Location;
                 cell.Size = ocell.Size;
                 cell.DrawBottomBigger = ocell.DrawBottomBigger;
                 cell.DrawRightBigger = ocell.DrawRightBigger;
                 cells[cell.GridLocation.X, cell.GridLocation.Y] = cell;
+                RegisterEvents(cell);
+                Invalidate();
+            }
+        }
+
+        public void UpdateCell(object sender, EventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new EventHandler(UpdateCell), sender, e);
+            }
+            else
+            {
+                Invalidate();
             }
         }
 
@@ -327,6 +377,41 @@
 
                 cell.Location = new Point(cellX, cellY);
             }
+        }
+
+        private void SerialPort_DataReceived(Object sender, SerialDataReceivedEventArgs e)
+        {
+            SerialPort port = (SerialPort) sender;
+            string inData = port.ReadExisting();
+            ParseSerialData(inData);
+        }
+
+        internal void SendData(string dataName, bool value)
+        {
+            SerialPort.WriteLine($"{dataName} {value}");
+        }
+
+        internal void ParseSerialData(string recivedData)
+        {
+            System.Diagnostics.Debug.WriteLine(recivedData);
+            string[] lines = recivedData.Split(new char[] { '\n' });
+            string errors = "";
+            foreach (var line in lines)
+            {
+                if (Regex.IsMatch(line, @"(?:[a-zA-Z0-9_]+ )(?:(?:HIGH)|(?:LOW))"))
+                {
+                    string[] parts = line.Split(new char[] { ' ' });
+                    Data[parts[0]] = parts[1] == "HIGH";
+                }
+                else
+                {
+                    errors += (errors == "") ? "" : "\n" + "Recived invalid data: " + line;
+                }
+            }
+            if (errors == "")
+                return;
+            errors += "\nContinuing without quiting";
+            MessageBox.Show(this, errors, "Data Error", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
         }
     }
 }

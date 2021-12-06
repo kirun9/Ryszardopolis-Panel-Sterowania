@@ -3,10 +3,15 @@
     using System;
     using System.Drawing;
     using System.Drawing.Drawing2D;
+    using System.Xml.Serialization;
 
+    using RyszardopolisPanelSterowania.Cells.Interfaces;
     using RyszardopolisPanelSterowania.Controls;
     using RyszardopolisPanelSterowania.Utils;
 
+    [XmlInclude(typeof(Track))]
+    [XmlInclude(typeof(SideElement))]
+    [XmlInclude(typeof(Junction))]
     public partial class Element
     {
         public event EventHandler ElementUpdated;
@@ -24,6 +29,11 @@
         internal readonly Color RedGap = 0xFC4E44.ToColor();
 
         private static Brush textureBrush;
+
+        public Element()
+        {
+        }
+
         internal static Brush TextureBrush
         {
             get
@@ -35,6 +45,7 @@
             }
         }
 
+        [XmlElement("Location")]
         public Point GridLocation
         {
             get
@@ -48,6 +59,7 @@
             }
         }
 
+        [XmlIgnore]
         public Size Size
         {
             get
@@ -61,10 +73,13 @@
             }
         }
 
+        [XmlIgnore]
         public bool DrawBottomBigger { get; set; }
 
+        [XmlIgnore]
         public bool DrawRightBigger { get; set; }
 
+        [XmlIgnore]
         public Point Location
         {
             get
@@ -78,6 +93,7 @@
             }
         }
 
+        [XmlIgnore]
         public virtual Font Font
         {
             get
@@ -96,6 +112,7 @@
         public int Width => Size.Width;
         public int Height => Size.Height;
 
+        [XmlAttribute("Rotation")]
         public RotateFlipType ElementRotation
         {
             get
@@ -110,22 +127,23 @@
             }
         }
 
-        private void UpdateElement()
+        protected void UpdateElement()
         {
             ElementUpdated?.Invoke(this, EventArgs.Empty);
         }
 
         public void DrawCell(Graphics g)
         {
-            DrawBorder(g);
             var transform = RotateElement(g);
+            Size = new Size(Size.Width - (DrawRightBigger ? 1 : 0), Size.Height - (DrawBottomBigger ? 1 : 0));
             DrawContent(g);
+            Size = new Size(Size.Width + (DrawRightBigger ? 1 : 0), Size.Height + (DrawBottomBigger ? 1 : 0));
             g.Transform = transform;
+            DrawBorder(g);
         }
 
         protected virtual void DrawBorder(Graphics g)
         {
-            FillRectangle(g, Colors.Background, 0, 0, Size.Width, Size.Height);
 
             DrawLine(g, Colors.BorderMain, 0, 0, 0, Size.Height);
             DrawLine(g, Colors.BorderMain, 0, 0, Size.Width, 0);
@@ -152,6 +170,7 @@
 
         protected virtual void DrawContent(Graphics g)
         {
+            FillRectangle(g, Colors.Background, 0, 0, Size.Width, Size.Height);
         }
 
         private Matrix RotateElement(Graphics g)
@@ -171,42 +190,42 @@
                 {
                     g.RotateTransform(90, MatrixOrder.Prepend);
                     g.ScaleTransform(1, 1);
-                    g.TranslateTransform(0, -Size.Height - 1);
+                    g.TranslateTransform(0, -Size.Height - 1 + (DrawBottomBigger ? 1 : 0));
                     break;
                 }
                 case RotateFlipType.Rotate180FlipNone:
                 {
                     g.RotateTransform(180, MatrixOrder.Prepend);
                     g.ScaleTransform(1, 1);
-                    g.TranslateTransform(-Size.Width - 1, -Size.Height - 1);
+                    g.TranslateTransform(-Size.Width - 1 + (DrawRightBigger ? 1 : 0), -Size.Height - 1 + (DrawBottomBigger ? 1 : 0));
                     break;
                 }
                 case RotateFlipType.Rotate270FlipNone:
                 {
                     g.RotateTransform(270, MatrixOrder.Prepend);
                     g.ScaleTransform(1, 1);
-                    g.TranslateTransform(-Size.Width - 1, 0);
+                    g.TranslateTransform(-Size.Width - 1 + (DrawRightBigger ? 1 : 0), 0);
                     break;
                 }
                 case RotateFlipType.RotateNoneFlipX:
                 {
                     g.RotateTransform(0);
                     g.ScaleTransform(-1, 1, MatrixOrder.Prepend);
-                    g.TranslateTransform(-Size.Width - 1, 0);
+                    g.TranslateTransform(-Size.Width - 1 + (DrawRightBigger ? 1 : 0), 0);
                     break;
                 }
                 case RotateFlipType.Rotate90FlipX:
                 {
                     g.RotateTransform(90, MatrixOrder.Prepend);
                     g.ScaleTransform(-1, 1, MatrixOrder.Prepend);
-                    g.TranslateTransform(-Size.Width - 1, -Size.Height - 1);
+                    g.TranslateTransform(-Size.Width - 1 + (DrawRightBigger ? 1 : 0), -Size.Height - 1 + (DrawBottomBigger ? 1 : 0));
                     break;
                 }
                 case RotateFlipType.Rotate180FlipX:
                 {
                     g.RotateTransform(180, MatrixOrder.Prepend);
                     g.ScaleTransform(-1, 1, MatrixOrder.Prepend);
-                    g.TranslateTransform(0, -Size.Height - 1);
+                    g.TranslateTransform(0, -Size.Height - 1 + (DrawRightBigger ? 1 : 0));
                     break;
                 }
                 case RotateFlipType.Rotate270FlipX:

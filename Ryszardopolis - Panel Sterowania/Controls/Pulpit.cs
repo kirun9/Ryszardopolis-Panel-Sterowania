@@ -11,6 +11,7 @@
     using RyszardopolisPanelSterowania.Cells.Interfaces;
     using RyszardopolisPanelSterowania.Extensions;
 
+    
     public partial class Pulpit : Control
     {
         private readonly float defaultCellSize = 38; // 9,5 * 4

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Resources;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
@@ -35,3 +36,4 @@ using System.Runtime.Versioning;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: SupportedOSPlatform("windows")]
+[assembly: NeutralResourcesLanguage("en-US")]

@@ -1,67 +1,66 @@
-﻿namespace RyszardopolisPanelSterowania.Controls
+﻿namespace RyszardopolisPanelSterowania.Controls;
+
+using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+
+using RyszardopolisPanelSterowania.Cells;
+using RyszardopolisPanelSterowania.Cells.Extensions;
+
+[System.Diagnostics.DebuggerStepThrough]
+public class CellHolder : IEnumerable<Element>
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.Linq;
+    protected Size Grid { get; set; } = new Size(0, 0);
 
-    using RyszardopolisPanelSterowania.Cells;
-    using RyszardopolisPanelSterowania.Cells.Extensions;
+    private Element[] Cells { get; set; } = new Element[0];
 
-    [System.Diagnostics.DebuggerStepThrough]
-    public class CellHolder : IEnumerable<Element>
+    public int Count => Cells.Length;
+
+    public Element this[int index]
     {
-        protected Size Grid { get; set; } = new Size(0, 0);
-
-        private Element[] Cells { get; set; } = new Element[0];
-
-        public int Count => Cells.Length;
-
-        public Element this[int index]
+        get
         {
-            get
-            {
-                return Cells[index];
-            }
-
-            set
-            {
-                Cells[index] = value;
-            }
+            return Cells[index];
         }
 
-        public Element this[int x, int y]
+        set
         {
-            get
-            {
-                return Cells[x + (y * Grid.Width)];
-            }
+            Cells[index] = value;
+        }
+    }
 
-            set
-            {
-                Cells[x + (y * Grid.Width)] = value;
-            }
+    public Element this[int x, int y]
+    {
+        get
+        {
+            return Cells[x + (y * Grid.Width)];
         }
 
-        public void ModifySize(int x, int y)
+        set
         {
-            Grid = new Size(x, y);
-            Cells = Cells.ModifySize(x * y);
+            Cells[x + (y * Grid.Width)] = value;
         }
+    }
 
-        public IEnumerator<Element> GetEnumerator()
-        {
-            return Cells.OfType<Element>().GetEnumerator();
-        }
+    public void ModifySize(int x, int y)
+    {
+        Grid = new Size(x, y);
+        Cells = Cells.ModifySize(x * y);
+    }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Cells.GetEnumerator();
-        }
+    public IEnumerator<Element> GetEnumerator()
+    {
+        return Cells.OfType<Element>().GetEnumerator();
+    }
 
-        public static implicit operator Element[](CellHolder holder)
-        {
-            return holder.Cells;
-        }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return Cells.GetEnumerator();
+    }
+
+    public static implicit operator Element[](CellHolder holder)
+    {
+        return holder.Cells;
     }
 }

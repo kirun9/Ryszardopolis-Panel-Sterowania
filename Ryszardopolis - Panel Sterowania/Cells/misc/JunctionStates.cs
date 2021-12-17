@@ -1,12 +1,11 @@
-﻿namespace RyszardopolisPanelSterowania.Cells.misc
+﻿namespace RyszardopolisPanelSterowania.Cells.misc;
+
+internal enum JunctionStates
 {
-    internal enum JunctionStates
-    {
-        Main,
-        Second,
-        MainOccupied,
-        SecondOccupied,
-        MainLocked,
-        Emergency,
-    }
+    Main,
+    Second,
+    MainOccupied,
+    SecondOccupied,
+    MainLocked,
+    Emergency,
 }

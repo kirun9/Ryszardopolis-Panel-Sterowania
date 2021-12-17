@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
     <OutputType>WinExe</OutputType>
     <RootNamespace>RyszardopolisPanelSterowania</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

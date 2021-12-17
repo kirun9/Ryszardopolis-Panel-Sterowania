@@ -1,16 +1,15 @@
-﻿namespace RyszardopolisPanelSterowania.Controls
+﻿namespace RyszardopolisPanelSterowania.Controls;
+
+using System;
+
+public class DataChangedEventArgs : EventArgs
 {
-    using System;
+    public string DataName { get; private set; }
+    public bool Value { get; private set; }
 
-    public class DataChangedEventArgs : EventArgs
+    public DataChangedEventArgs(string dataName, bool value)
     {
-        public string DataName { get; private set; }
-        public bool Value { get; private set; }
-
-        public DataChangedEventArgs(string dataName, bool value)
-        {
-            DataName = dataName;
-            Value = value;
-        }
+        DataName = dataName;
+        Value = value;
     }
 }

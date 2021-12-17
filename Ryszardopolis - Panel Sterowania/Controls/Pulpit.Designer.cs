@@ -30,18 +30,18 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.SerialPort = new System.IO.Ports.SerialPort(this.components);
+            SerialPort = new System.IO.Ports.SerialPort(this.components);
             this.SuspendLayout();
             // 
             // SerialPort
             // 
-            this.SerialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPort_DataReceived);
+            SerialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialPort_DataReceived);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.IO.Ports.SerialPort SerialPort;
+        private static System.IO.Ports.SerialPort SerialPort;
     }
 }

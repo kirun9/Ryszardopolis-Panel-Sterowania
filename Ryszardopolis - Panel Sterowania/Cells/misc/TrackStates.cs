@@ -1,10 +1,9 @@
-﻿namespace RyszardopolisPanelSterowania.Cells
+﻿namespace RyszardopolisPanelSterowania.Cells;
+
+public enum TrackStates
 {
-    public enum TrackStates
-    {
-        None,
-        Locked,
-        Occupied,
-        Juntion
-    }
+    None,
+    Locked,
+    Occupied,
+    Junction
 }

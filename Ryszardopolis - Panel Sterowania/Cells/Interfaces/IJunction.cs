@@ -1,27 +1,20 @@
-﻿namespace RyszardopolisPanelSterowania.Cells.Interfaces
+﻿namespace RyszardopolisPanelSterowania.Cells.Interfaces;
+
+using RyszardopolisPanelSterowania.Controls;
+
+public interface IJunction
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    public string JunctionId { get; set; }
 
-    using RyszardopolisPanelSterowania.Controls;
+    public string MainTrackId { get; set; }
+    public string SecondTrackId { get; set; }
 
-    internal interface IJunction
-    {
-        public string JunctionId { get; set; }
+    public TrackStates MainTrackState { get; set; }
+    public TrackStates SecondTrackState { get; set; }
 
-        public string MainTrackId { get; set; }
-        public string SecondTrackId { get; set; }
+    public bool MainTrackHasGap { get; set; }
+    public bool SecondTrackHasGap { get; set; }
 
-        public TrackStates MainTrackState { get; set; }
-        public TrackStates SecondTrackState { get; set; }
-
-        public bool MainTrackHasGap { get; set; }
-        public bool SecondTrackHasGap { get; set; }
-
-        public void OcupyTrack(DataChangedEventArgs e);
-        public void SwitchTrack(DataChangedEventArgs e);
-    }
+    public void OcupyTrack(DataChangedEventArgs e);
+    public void SwitchTrack(DataChangedEventArgs e);
 }

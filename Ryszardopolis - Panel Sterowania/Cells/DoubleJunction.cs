@@ -1,41 +1,22 @@
 ﻿namespace RyszardopolisPanelSterowania.Cells;
 
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
 using RyszardopolisPanelSterowania.Cells.Interfaces;
 using RyszardopolisPanelSterowania.Controls;
 
-public class Junction : Element, IJunction
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
+
+public class DoubleJunction : Junction, IDoubleJunction
 {
-    public string JunctionId { get; set; } = "EmptyJunction";
-    public string MainTrackId { get; set; } = "EmptyElement";
-    public string SecondTrackId { get; set; } = "EmptyElement";
-    public TrackStates MainTrackState { get; set; } = TrackStates.Junction;
-    public TrackStates SecondTrackState { get; set; }
+    public string SecondJunctionId { get; set; }
+    public string ThirdTrackId { get; set; }
+    public TrackStates ThirdTrackState { get; set; }
+    public bool ThirdTrackHasGap { get; set; }
 
-    public bool MainTrackHasGap { get; set; } = true;
-    public bool SecondTrackHasGap { get; set; } = true;
-
-    internal readonly Color Border = 0x919191.ToColor();
-    internal readonly Color Background = 0xB4B4B4.ToColor();
-
-    internal static TextureBrush bigGapBrush;
-    internal static TextureBrush BigGapBrush
-    {
-        get
-        {
-            if (bigGapBrush == null)
-                bigGapBrush = new TextureBrush(Bitmap.FromFile("GapBigAlpha.bmp"), WrapMode.Clamp);
-            return bigGapBrush;
-        }
-    }
-
-    public Junction()
-    {
-    }
-
-    public virtual void OcupyTrack(DataChangedEventArgs e)
+    public override void OcupyTrack(DataChangedEventArgs e)
     {
         if (e.DataName == MainTrackId)
         {
@@ -44,12 +25,17 @@ public class Junction : Element, IJunction
         }
         if (e.DataName == SecondTrackId)
         {
-            SecondTrackState = e.Value ? TrackStates.Occupied : (DigitalData.GetData(JunctionId + "_S") ? TrackStates.Junction : TrackStates.None);
+            SecondTrackState = e.Value ? TrackStates.Occupied : (DigitalData.GetData(JunctionId + "_S") || DigitalData.GetData(SecondJunctionId + "_S") ? TrackStates.Junction : TrackStates.None);
+            UpdateElement();
+        }
+        if (e.DataName == ThirdTrackId)
+        {
+            ThirdTrackState = e.Value ? TrackStates.Occupied : (DigitalData.GetData(SecondJunctionId + "_M") ? TrackStates.Junction : TrackStates.None);
             UpdateElement();
         }
     }
 
-    public virtual void SwitchTrack(DataChangedEventArgs e)
+    public override void SwitchTrack(DataChangedEventArgs e)
     {
         if (e.DataName == JunctionId + "_M")
         {
@@ -68,7 +54,7 @@ public class Junction : Element, IJunction
                 }
             }
         }
-        if (e.DataName == JunctionId + "_S")
+        if (e.DataName == JunctionId + "_S" || e.DataName == SecondJunctionId + "_S")
         {
             if (e.Value)
             {
@@ -84,6 +70,38 @@ public class Junction : Element, IJunction
                     SecondTrackState = TrackStates.None;
                 }
             }
+        }
+        if (e.DataName == SecondJunctionId + "_M")
+        {
+            if (e.Value)
+            {
+                if (ThirdTrackState == TrackStates.None)
+                {
+                    ThirdTrackState = TrackStates.Junction;
+                }
+            }
+            else
+            {
+                if (ThirdTrackState == TrackStates.None)
+                {
+                    ThirdTrackState = TrackStates.Junction;
+                }
+            }
+        }
+
+        if (e.DataName.StartsWith(JunctionId))
+        {
+            if (e.DataName == JunctionId + "_M")
+                Pulpit.SendData(SecondJunctionId + "_JM", e.Value);
+            if (e.DataName == JunctionId + "_S")
+                Pulpit.SendData(SecondJunctionId + "_JS", e.Value);
+        }
+        if (e.DataName.StartsWith(SecondJunctionId))
+        {
+            if (e.DataName == SecondJunctionId + "_M")
+                Pulpit.SendData(JunctionId + "_JM", e.Value);
+            if (e.DataName == SecondJunctionId + "_S")
+                Pulpit.SendData(JunctionId + "_JS", e.Value);
         }
     }
 
@@ -101,6 +119,15 @@ public class Junction : Element, IJunction
         };
 
         Color sGapColor = SecondTrackState switch
+        {
+            TrackStates.None => EmptyGap,
+            TrackStates.Locked => WhiteGap,
+            TrackStates.Occupied => RedGap,
+            TrackStates.Junction => YellowGap,
+            _ => EmptyGap,
+        };
+
+        Color tGapColor = ThirdTrackState switch
         {
             TrackStates.None => EmptyGap,
             TrackStates.Locked => WhiteGap,
@@ -129,33 +156,20 @@ public class Junction : Element, IJunction
         path.AddLine(35, 14, 31, 14);
         path.AddLine(31, 14, 22, 5);
 
-        if (SecondTrackHasGap)
-        {
-            FillPath(g, sGapColor, path);
-        }
-
         if (MainTrackHasGap)
         {
-            FillRectangle(g, mGapColor, 5, 18, 29, 3);
-            if (MainTrackState != TrackStates.None)
+            FillPath(g, mGapColor, path);
+        }
+
+        if (SecondTrackHasGap)
+        {
+            FillRectangle(g, sGapColor, 5, 18, 29, 3);
+            if (SecondTrackState != TrackStates.None)
             {
                 DrawImage(g, "GapBigAlpha.bmp", 5, 18, 29, 3);
             }
         }
+
         path.Dispose();
-    }
-
-    protected override void Dispose(bool dispose)
-    {
-        base.Dispose(dispose);
-
-        if (dispose)
-        {
-            if (bigGapBrush != null)
-            {
-                bigGapBrush.Dispose();
-                bigGapBrush = null;
-            }
-        }
     }
 }

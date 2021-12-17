@@ -1,23 +1,22 @@
-﻿namespace RyszardopolisPanelSterowania.Cells.Extensions
-{
-    [System.Diagnostics.DebuggerStepThrough]
-    public static class ElementExtensions
-    {
-        public static Element[] ModifySize(this Element[] oldArr, int newSize)
-        {
-            Element[] newArr = new Element[newSize];
-            if (newSize < oldArr.Length)
-            {
-                for (int i = 0; i < newSize; i++)
-                {
-                    newArr[i] = oldArr[i];
-                }
+﻿namespace RyszardopolisPanelSterowania.Cells.Extensions;
 
-                return newArr;
+[System.Diagnostics.DebuggerStepThrough]
+public static class ElementExtensions
+{
+    public static Element[] ModifySize(this Element[] oldArr, int newSize)
+    {
+        Element[] newArr = new Element[newSize];
+        if (newSize < oldArr.Length)
+        {
+            for (int i = 0; i < newSize; i++)
+            {
+                newArr[i] = oldArr[i];
             }
 
-            oldArr.CopyTo(newArr, 0);
             return newArr;
         }
+
+        oldArr.CopyTo(newArr, 0);
+        return newArr;
     }
 }

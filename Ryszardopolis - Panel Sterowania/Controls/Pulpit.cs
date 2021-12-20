@@ -2,7 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO.Ports;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -20,9 +22,12 @@ public partial class Pulpit : Control
     private static DigitalData Data;
 
     private bool lockScale = false;
+    public bool LockBitmapScale = false;
     private float pulpitScale;
+    private Stopwatch watch;
+    private int frames = 0;
 
-    internal static float bitmapScale = 10;
+    internal float bitmapScale { get => LockBitmapScale ? 1 : PulpitScale; }
 
     public Pulpit()
     {
@@ -30,6 +35,8 @@ public partial class Pulpit : Control
         Data = new DigitalData();
         DoubleBuffered = true;
         InitializeComponent();
+        watch = new Stopwatch();
+        watch.Stop();
         //SerialPort.Open();
     }
 
@@ -69,7 +76,7 @@ public partial class Pulpit : Control
     {
         get
         {
-            return lockScale ? 1.3f : pulpitScale;
+            return lockScale ? 1f : pulpitScale;
         }
     }
 
@@ -282,12 +289,15 @@ public partial class Pulpit : Control
         CalculateElementsLocations();
     }
 
-    protected override void OnPaint(PaintEventArgs e)
+    private void PaintPulpit(PaintEventArgs e)
     {
         base.OnPaint(e);
 
         using Bitmap bitmap = new Bitmap(BitmapSize.Width, BitmapSize.Height);
         using Graphics g = Graphics.FromImage(bitmap);
+
+        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        g.SmoothingMode = SmoothingMode.None;
 
         using (SolidBrush brush = new SolidBrush(Colors.Black.ToColor()))
         {
@@ -310,8 +320,29 @@ public partial class Pulpit : Control
         g.ResetTransform();
 
         using Bitmap scaled = new Bitmap(bitmap, PulpitSize.Width, PulpitSize.Height);
+        //using TextureBrush textureBrush = new TextureBrush(scaled, System.Drawing.Drawing2D.WrapMode.Clamp, new RectangleF(0, 0, PulpitSize.Width, PulpitSize.Height));
 
         e.Graphics.DrawImage(scaled, 0, 0, PulpitSize.Width, PulpitSize.Height);
+        //e.Graphics.FillRectangle(textureBrush, 0, 0, PulpitSize.Width, PulpitSize.Height);
+    }
+
+    protected override void OnPaint(PaintEventArgs e)
+    {
+        watch.Restart();
+
+        PaintPulpit(e);
+
+        watch.Stop();
+        using Brush textBrush = new SolidBrush(Color.Black);
+        using Font f = new Font(Font.FontFamily, 10f, FontStyle.Bold);
+        e.Graphics.DrawString($"Draw Time {watch.Elapsed:s\\.fff} s\nFrame rate {(1000F/watch.ElapsedMilliseconds):0.00}\nFrames: {frames:000}", f, textBrush, 10, PulpitSize.Height + 5);
+        /*if (frames is <= 100 and > 0)
+        {
+            System.IO.File.AppendAllText(@"C:\Users\Krystian\Desktop\Data.txt", $"{watch.Elapsed:s\\,fff}\t{(1000F / watch.ElapsedMilliseconds):0.00}\n");
+        }
+        if (frames > 100)
+            Application.Exit();
+        frames++;*/
     }
 
     protected override void OnLayout(LayoutEventArgs levent)
@@ -379,6 +410,8 @@ public partial class Pulpit : Control
 
     private void CalculateElementsLocations()
     {
+        CalculateScale();
+
         foreach (var cell in cells)
         {
             cell.Size = new Size((int) defaultCellSize, (int) defaultCellSize);

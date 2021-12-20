@@ -41,7 +41,7 @@ public partial class Element : IDisposable
             {
                 //textureBrush = new TextureBrush(Noise.GenerateNoise(512, 1, max: byte.MaxValue / 2), System.Drawing.Drawing2D.WrapMode.Clamp, new Rectangle(0, 0, 512, 512));
                 using Bitmap noiseBitmap = Noise.NoiseFromImage();
-                textureBrush = new TextureBrush(noiseBitmap, System.Drawing.Drawing2D.WrapMode.Clamp, new RectangleF(0, 0, 512, 512));
+                textureBrush = new TextureBrush(noiseBitmap, WrapMode.Clamp, new RectangleF(0, 0, 512, 512));
             }
             return textureBrush;
         }
@@ -147,7 +147,6 @@ public partial class Element : IDisposable
 
     protected virtual void DrawBorder(Graphics g)
     {
-
         DrawLine(g, Colors.BorderMain, 0, 0, 0, Size.Height);
         DrawLine(g, Colors.BorderMain, 0, 0, Size.Width, 0);
 

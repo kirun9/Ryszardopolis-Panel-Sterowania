@@ -20,6 +20,11 @@ public partial class MainForm : Form
     [STAThread]
     public static void Main()
     {
+        if (System.IO.File.Exists(@"C:\Users\Krystian\Desktop\Data.txt"))
+        {
+            System.IO.File.Delete(@"C:\Users\Krystian\Desktop\Data.txt");
+        }
+
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
         using MainForm form = new MainForm();
@@ -32,6 +37,7 @@ public partial class MainForm : Form
         pulpit1 = new Pulpit();
         panel1.Controls.Add(pulpit1);
         pulpit1.Dock = DockStyle.Fill;
+        pulpit1.LockBitmapScale = false;
 
         serializedData = XmlSerializer.Load(serializerConfig);
 
@@ -58,8 +64,8 @@ public partial class MainForm : Form
         serializedData.Data.Elements.Clear();
         serializedData.Data.Elements.AddRange(pulpit1.Cells);
 
-        XmlSerializer.Save(serializerConfig, serializedData);
-        pulpit1.Dimensions = new System.Drawing.Size(46, 22);
+        //XmlSerializer.Save(serializerConfig, serializedData);
+        //pulpit1.Dimensions = new System.Drawing.Size(46, 22);
         Invalidate();
     }
 

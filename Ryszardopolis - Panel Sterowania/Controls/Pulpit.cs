@@ -27,7 +27,7 @@ public partial class Pulpit : Control
     private Stopwatch watch;
     private int frames = 0;
 
-    internal float bitmapScale { get => LockBitmapScale ? 1 : PulpitScale; }
+    internal float bitmapScale { get => LockBitmapScale ? 1.5f : PulpitScale; }
 
     public Pulpit()
     {
@@ -76,7 +76,7 @@ public partial class Pulpit : Control
     {
         get
         {
-            return lockScale ? 1f : pulpitScale;
+            return lockScale ? 5f : pulpitScale;
         }
     }
 
@@ -299,6 +299,8 @@ public partial class Pulpit : Control
         g.InterpolationMode = InterpolationMode.HighQualityBicubic;
         g.SmoothingMode = SmoothingMode.None;
 
+        g.PixelOffsetMode = PixelOffsetMode.Half;
+
         using (SolidBrush brush = new SolidBrush(Colors.Black.ToColor()))
         {
             g.FillRectangle(brush, 0, 0, bitmap.Width, bitmap.Height);
@@ -328,11 +330,15 @@ public partial class Pulpit : Control
 
     protected override void OnPaint(PaintEventArgs e)
     {
+        using SolidBrush backgroundBrush = new SolidBrush(Color.Aqua);
+        e.Graphics.FillRectangle(backgroundBrush, 0, 0, Width, Height);
+
         watch.Restart();
 
         PaintPulpit(e);
 
         watch.Stop();
+
         using Brush textBrush = new SolidBrush(Color.Black);
         using Font f = new Font(Font.FontFamily, 10f, FontStyle.Bold);
         e.Graphics.DrawString($"Draw Time {watch.Elapsed:s\\.fff} s\nFrame rate {(1000F/watch.ElapsedMilliseconds):0.00}\nFrames: {frames:000}", f, textBrush, 10, PulpitSize.Height + 5);

@@ -37,7 +37,8 @@ public partial class MainForm : Form
         pulpit1 = new Pulpit();
         panel1.Controls.Add(pulpit1);
         pulpit1.Dock = DockStyle.Fill;
-        pulpit1.LockBitmapScale = false;
+        pulpit1.LockBitmapScale = true;
+        pulpit1.LockScale = true;
 
         serializedData = XmlSerializer.Load(serializerConfig);
 

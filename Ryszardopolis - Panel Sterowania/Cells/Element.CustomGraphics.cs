@@ -27,25 +27,25 @@ public partial class Element
 
     #region DrawArc
     [DebuggerStepThrough]
-    internal void DrawArc(Graphics g, Colors color, RectangleF rect, float startAngle, float sweepAngle, bool useTexture = true) => DrawArc(g, color, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle, useTexture);
+    internal void DrawArc(Graphics g, Colors color, RectangleF rect, float startAngle, float sweepAngle, bool useTexture = false) => DrawArc(g, color, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawArc(Graphics g, Colors color, Rectangle rect, float startAngle, float sweepAngle, bool useTexture = true) => DrawArc(g, color, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle, useTexture);
+    internal void DrawArc(Graphics g, Colors color, Rectangle rect, float startAngle, float sweepAngle, bool useTexture = false) => DrawArc(g, color, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawArc(Graphics g, Colors color, float x, float y, float width, float height, float startAngle, float sweepAngle, bool useTexture = true) => DrawArc(g, color.ToColor(), x, y, width, height, startAngle, sweepAngle, useTexture);
+    internal void DrawArc(Graphics g, Colors color, float x, float y, float width, float height, float startAngle, float sweepAngle, bool useTexture = false) => DrawArc(g, color.ToColor(), x, y, width, height, startAngle, sweepAngle, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawArc(Graphics g, Colors color, int x, int y, int width, int height, float startAngle, float sweepAngle, bool useTexture = true) => DrawArc(g, color.ToColor(), x, y, width, height, startAngle, sweepAngle, useTexture);
+    internal void DrawArc(Graphics g, Colors color, int x, int y, int width, int height, float startAngle, float sweepAngle, bool useTexture = false) => DrawArc(g, color.ToColor(), x, y, width, height, startAngle, sweepAngle, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawArc(Graphics g, Color color, RectangleF rect, float startAngle, float sweepAngle, bool useTexture = true) => DrawArc(g, color, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle, useTexture);
+    internal void DrawArc(Graphics g, Color color, RectangleF rect, float startAngle, float sweepAngle, bool useTexture = false) => DrawArc(g, color, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawArc(Graphics g, Color color, Rectangle rect, float startAngle, float sweepAngle, bool useTexture = true) => DrawArc(g, color, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle, useTexture);
+    internal void DrawArc(Graphics g, Color color, Rectangle rect, float startAngle, float sweepAngle, bool useTexture = false) => DrawArc(g, color, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawArc(Graphics g, Color color, float x, float y, float width, float height, float startAngle, float sweepAngle, bool useTexture = true)
+    internal void DrawArc(Graphics g, Color color, float x, float y, float width, float height, float startAngle, float sweepAngle, bool useTexture = false)
     {
         using Pen pen = new Pen(color, 1);
         pen.StartCap = LineCap.Square;
@@ -54,7 +54,7 @@ public partial class Element
     }
 
     [DebuggerStepThrough]
-    internal void DrawArc(Graphics g, Color color, int x, int y, int width, int height, float startAngle, float sweepAngle, bool useTexture = true)
+    internal void DrawArc(Graphics g, Color color, int x, int y, int width, int height, float startAngle, float sweepAngle, bool useTexture = false)
     {
         using Pen pen = new Pen(color, 1);
         pen.StartCap = LineCap.Square;
@@ -63,13 +63,13 @@ public partial class Element
     }
 
     [DebuggerStepThrough]
-    internal void DrawArc(Graphics g, Pen pen, RectangleF rect, float startAngle, float sweepAngle, bool useTexture = true) => DrawArc(g, pen, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle, useTexture);
+    internal void DrawArc(Graphics g, Pen pen, RectangleF rect, float startAngle, float sweepAngle, bool useTexture = false) => DrawArc(g, pen, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawArc(Graphics g, Pen pen, Rectangle rect, float startAngle, float sweepAngle, bool useTexture = true) => DrawArc(g, pen, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle, useTexture);
+    internal void DrawArc(Graphics g, Pen pen, Rectangle rect, float startAngle, float sweepAngle, bool useTexture = false) => DrawArc(g, pen, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawArc(Graphics g, Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle, bool useTexture = true)
+    internal void DrawArc(Graphics g, Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle, bool useTexture = false)
     {
         g.DrawArc(pen, x, y, width, height, startAngle, sweepAngle);
         if (useTexture)
@@ -80,7 +80,7 @@ public partial class Element
     }
 
     [DebuggerStepThrough]
-    internal void DrawArc(Graphics g, Pen pen, int x, int y, int width, int height, float startAngle, float sweepAngle, bool useTexture = true)
+    internal void DrawArc(Graphics g, Pen pen, int x, int y, int width, int height, float startAngle, float sweepAngle, bool useTexture = false)
     {
         g.DrawArc(pen, x, y, width, height, startAngle, sweepAngle);
         if (useTexture)
@@ -104,10 +104,10 @@ public partial class Element
     }
 
     [DebuggerStepThrough]
-    internal void FillRectangle(Graphics g, Colors color, float x, float y, float width, float height, bool useTexture = true) => FillRectangle(g, color.ToColor(), x, y, width, height, useTexture);
+    internal void FillRectangle(Graphics g, Colors color, float x, float y, float width, float height, bool useTexture = false) => FillRectangle(g, color.ToColor(), x, y, width, height, useTexture);
 
     [DebuggerStepThrough]
-    internal void FillRectangle(Graphics g, Color color, float x, float y, float width, float height, bool useTexture = true)
+    internal void FillRectangle(Graphics g, Color color, float x, float y, float width, float height, bool useTexture = false)
     {
         using Brush brush = new SolidBrush(color);
 
@@ -122,10 +122,10 @@ public partial class Element
     #region FillPath
 
     [DebuggerStepThrough]
-    internal void FillPath(Graphics g, Colors color, GraphicsPath path, bool useTexture = true) => FillPath(g, color.ToColor(), path, useTexture);
+    internal void FillPath(Graphics g, Colors color, GraphicsPath path, bool useTexture = false) => FillPath(g, color.ToColor(), path, useTexture);
 
     [DebuggerStepThrough]
-    internal void FillPath(Graphics g, Color color, GraphicsPath path, bool useTexture = true)
+    internal void FillPath(Graphics g, Color color, GraphicsPath path, bool useTexture = false)
     {
         for (int i = 0; i < path.PointCount; i++)
         {
@@ -143,10 +143,10 @@ public partial class Element
     #region DrawPath
 
     [DebuggerStepThrough]
-    internal void DrawPath(Graphics g, Colors color, GraphicsPath path, bool useTexture = true) => DrawPath(g, color.ToColor(), path, useTexture);
+    internal void DrawPath(Graphics g, Colors color, GraphicsPath path, bool useTexture = false) => DrawPath(g, color.ToColor(), path, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawPath(Graphics g, Color color, GraphicsPath path, bool useTexture = true)
+    internal void DrawPath(Graphics g, Color color, GraphicsPath path, bool useTexture = false)
     {
         using Pen pen = new Pen(color);
         pen.StartCap = pen.EndCap = LineCap.Square;
@@ -155,7 +155,7 @@ public partial class Element
     }
 
     [DebuggerStepThrough]
-    internal void DrawPath(Graphics g, Pen pen, GraphicsPath path, bool useTexture = true)
+    internal void DrawPath(Graphics g, Pen pen, GraphicsPath path, bool useTexture = false)
     {
         PointF[] points = path.PathPoints;
         //for (int i = 0; i < points.Length; i++)
@@ -176,19 +176,19 @@ public partial class Element
     #region DrawRectangle
 
     [DebuggerStepThrough]
-    internal void DrawRectangle(Graphics g, Colors color, RectangleF rect, bool useTexture = true) => DrawRectangle(g, color, rect.X, rect.Y, rect.Width, rect.Height, useTexture);
+    internal void DrawRectangle(Graphics g, Colors color, RectangleF rect, bool useTexture = false) => DrawRectangle(g, color, rect.X, rect.Y, rect.Width, rect.Height, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawRectangle(Graphics g, Color color, RectangleF rect, bool useTexture = true) => DrawRectangle(g, color, rect.X, rect.Y, rect.Width, rect.Height, useTexture);
+    internal void DrawRectangle(Graphics g, Color color, RectangleF rect, bool useTexture = false) => DrawRectangle(g, color, rect.X, rect.Y, rect.Width, rect.Height, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawRectangle(Graphics g, Pen pen, RectangleF rect, bool useTexture = true) => DrawRectangle(g, pen, rect.X, rect.Y, rect.Width, rect.Height, useTexture);
+    internal void DrawRectangle(Graphics g, Pen pen, RectangleF rect, bool useTexture = false) => DrawRectangle(g, pen, rect.X, rect.Y, rect.Width, rect.Height, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawRectangle(Graphics g, Colors color, float x, float y, float width, float height, bool useTexture = true) => DrawRectangle(g, color.ToColor(), x, y, width, height, useTexture);
+    internal void DrawRectangle(Graphics g, Colors color, float x, float y, float width, float height, bool useTexture = false) => DrawRectangle(g, color.ToColor(), x, y, width, height, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawRectangle(Graphics g, Color color, float x, float y, float width, float height, bool useTexture = true)
+    internal void DrawRectangle(Graphics g, Color color, float x, float y, float width, float height, bool useTexture = false)
     {
         using Pen pen = new Pen(color, 1);
         pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Square;
@@ -196,7 +196,7 @@ public partial class Element
     }
 
     [DebuggerStepThrough]
-    internal void DrawRectangle(Graphics g, Pen pen, float x, float y, float width, float height, bool useTexture = true)
+    internal void DrawRectangle(Graphics g, Pen pen, float x, float y, float width, float height, bool useTexture = false)
     {
         g.DrawRectangle(pen, x, y, width, height);
         if (useTexture)
@@ -209,25 +209,25 @@ public partial class Element
 
     #region DrawLineRect, DrawLine
     [DebuggerStepThrough]
-    internal void DrawLineRect(Graphics g, Colors color, RectangleF rect, bool useTexture = true) => DrawLine(g, color, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height, useTexture);
+    internal void DrawLineRect(Graphics g, Colors color, RectangleF rect, bool useTexture = false) => DrawLine(g, color, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawLineRect(Graphics g, Colors color, float x, float y, float width, float height, bool useTexture = true) => DrawLine(g, color, x, y, x + width, y + height, useTexture);
+    internal void DrawLineRect(Graphics g, Colors color, float x, float y, float width, float height, bool useTexture = false) => DrawLine(g, color, x, y, x + width, y + height, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawLine(Graphics g, Colors color, Point p1, Point p2, bool useTexture = true) => DrawLine(g, color.ToColor(), p1, p2, useTexture);
+    internal void DrawLine(Graphics g, Colors color, Point p1, Point p2, bool useTexture = false) => DrawLine(g, color.ToColor(), p1, p2, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawLine(Graphics g, Color color, Point p1, Point p2, bool useTexture = true) => DrawLine(g, color, p1.X, p1.Y, p2.X, p2.Y, useTexture);
+    internal void DrawLine(Graphics g, Color color, Point p1, Point p2, bool useTexture = false) => DrawLine(g, color, p1.X, p1.Y, p2.X, p2.Y, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawLine(Graphics g, Pen pen, Point p1, Point p2, bool useTexture = true) => DrawLine(g, pen, p1.X, p1.Y, p2.X, p2.Y, useTexture);
+    internal void DrawLine(Graphics g, Pen pen, Point p1, Point p2, bool useTexture = false) => DrawLine(g, pen, p1.X, p1.Y, p2.X, p2.Y, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawLine(Graphics g, Colors color, float p1x, float p1y, float p2x, float p2y, bool useTexture = true) => DrawLine(g, color.ToColor(), p1x, p1y, p2x, p2y, useTexture);
+    internal void DrawLine(Graphics g, Colors color, float p1x, float p1y, float p2x, float p2y, bool useTexture = false) => DrawLine(g, color.ToColor(), p1x, p1y, p2x, p2y, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawLine(Graphics g, Color color, float p1x, float p1y, float p2x, float p2y, bool useTexture = true)
+    internal void DrawLine(Graphics g, Color color, float p1x, float p1y, float p2x, float p2y, bool useTexture = false)
     {
         using Pen pen = new Pen(color, 1);
         pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Square;
@@ -235,7 +235,7 @@ public partial class Element
     }
 
     [DebuggerStepThrough]
-    internal void DrawLine(Graphics g, Pen pen, float p1x, float p1y, float p2x, float p2y, bool useTexture = true)
+    internal void DrawLine(Graphics g, Pen pen, float p1x, float p1y, float p2x, float p2y, bool useTexture = false)
     {
         /*float penW = pen.Width / 2;
 
@@ -258,16 +258,16 @@ public partial class Element
 
     #region DrawString
     [DebuggerStepThrough]
-    internal void DrawString(Graphics g, string s, Font font, Colors color, PointF point, bool useTexture = true) => DrawString(g, s, font, color, point.X, point.Y, useTexture);
+    internal void DrawString(Graphics g, string s, Font font, Colors color, PointF point, bool useTexture = false) => DrawString(g, s, font, color, point.X, point.Y, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawString(Graphics g, string s, Font font, Color color, PointF point, bool useTexture = true) => DrawString(g, s, font, color, point.X, point.Y, useTexture);
+    internal void DrawString(Graphics g, string s, Font font, Color color, PointF point, bool useTexture = false) => DrawString(g, s, font, color, point.X, point.Y, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawString(Graphics g, string s, Font font, Colors color, float x, float y, bool useTexture = true) => DrawString(g, s, font, color.ToColor(), x, y, useTexture);
+    internal void DrawString(Graphics g, string s, Font font, Colors color, float x, float y, bool useTexture = false) => DrawString(g, s, font, color.ToColor(), x, y, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawString(Graphics g, string s, Font font, Color color, float x, float y, bool useTexture = true)
+    internal void DrawString(Graphics g, string s, Font font, Color color, float x, float y, bool useTexture = false)
     {
         using Brush brush = new SolidBrush(color);
         g.DrawString(s, font, brush, x, y);
@@ -278,16 +278,16 @@ public partial class Element
     }
 
     [DebuggerStepThrough]
-    internal void DrawString(Graphics g, string s, Font font, Colors color, ContentAlignment alignment, bool useTexture = true) => DrawString(g, s, font, color.ToColor(), new StringLocation() { Alignment = alignment }, useTexture);
+    internal void DrawString(Graphics g, string s, Font font, Colors color, ContentAlignment alignment, bool useTexture = false) => DrawString(g, s, font, color.ToColor(), new StringLocation() { Alignment = alignment }, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawString(Graphics g, string s, Font font, Color color, ContentAlignment alignment, bool useTexture = true) => DrawString(g, s, font, color, new StringLocation() { Alignment = alignment }, useTexture);
+    internal void DrawString(Graphics g, string s, Font font, Color color, ContentAlignment alignment, bool useTexture = false) => DrawString(g, s, font, color, new StringLocation() { Alignment = alignment }, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawString(Graphics g, string s, Font font, Colors color, StringLocation stringLocation, bool useTexture = true) => DrawString(g, s, font, color.ToColor(), stringLocation, useTexture);
+    internal void DrawString(Graphics g, string s, Font font, Colors color, StringLocation stringLocation, bool useTexture = false) => DrawString(g, s, font, color.ToColor(), stringLocation, useTexture);
 
     [DebuggerStepThrough]
-    internal void DrawString(Graphics g, string s, Font font, Color color, StringLocation stringLocation, bool useTexture = true)
+    internal void DrawString(Graphics g, string s, Font font, Color color, StringLocation stringLocation, bool useTexture = false)
     {
         var stringSize = g.MeasureString(s, font);
         using SolidBrush brush = new SolidBrush(color);
